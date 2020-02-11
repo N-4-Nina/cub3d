@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "../../includes/libftprintf.h"
 #include "../libft/libft.h"
 
 void	write_x(t_flags argflags, va_list arguments, int *count)

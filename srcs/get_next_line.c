@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+#include "../ft_printf/libft/libft.h"
 
 int	check_new_line(char *s)
 {

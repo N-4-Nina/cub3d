@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 int	draw(int keycode, void *param)
 {
@@ -35,13 +35,25 @@ int	main(int argc, char **argv)
 	void	*mlx;
 	void	*window;
 	int	fd;
-	t_window	win_param;
+
+	t_param		param;
+	t_window	p_window;
+	t_texture	textures;
+	t_floor		floor;
+	t_ceiling	ceiling;
+
+
+	param.window = &p_window;
+	param.texture = &textures;
+	param.floor = &floor;
+	param.ceiling = &ceiling;
+	param.sprite = &sprite;
 
 	if (argv[1])
 	{
 		if (!(fd = open(argv[1], O_RDONLY)))
 			exit(2);
-		if (!(check_and_parse(fd, &win_param)))
+		if (!(check_and_parse(fd, &param)))
 		{
 			ft_printf("invalid .cub file");
 			return (2);
@@ -54,11 +66,12 @@ int	main(int argc, char **argv)
 	}
 
 	mlx = mlx_init();
-	window = mlx_new_window(mlx, 800, 640, "cub3d");
-	win_param.mlx = mlx;
-	win_param.window = window;
+	window = mlx_new_window(mlx, p_window.x, p_window.y, "cub3d");
+	p_window.mlx = mlx;
+	p_window.window = window;
 
-	mlx_key_hook(window, draw, &win_param);
+
+	mlx_key_hook(window, draw, &p_window);
 	mlx_loop(mlx);
 }
 

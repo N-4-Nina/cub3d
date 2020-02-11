@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "../../includes/libftprintf.h"
 #include "../libft/libft.h"
 
 void	ft_printstr_fd(char *s, int fd, t_flags argflags, int *count)

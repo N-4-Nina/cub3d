@@ -14,11 +14,17 @@
 # define CUB3D_H
 
 
-#include "minilibx_opengl_20191021/mlx.h"
-#include "get_next_line/get_next_line.h"
-#include "ft_printf/includes/libftprintf.h"
+#include "../minilibx_opengl_20191021/mlx.h"
+//#include "get_next_line.h"
+#include "../ft_printf/libft/libft.h"
+#include "libftprintf.h"
 #include <stdlib.h>
 #include <fcntl.h>
+#include <limits.h>
+
+/*
+ * CUB3D STRUCTURES
+ */
 
 typedef	struct	s_window
 {
@@ -34,17 +40,65 @@ typedef	struct	s_camera
 	int	y;
 }		t_camera;
 
+typedef	struct	s_floor
+{
+	int	R;
+	int	G;
+	int	B;
+}		t_floor;
+
+typedef	struct	s_ceiling
+{
+	int	R;
+	int	G;
+	int	B;
+}		t_ceiling;
+
+typedef	struct	s_texture
+{
+	char	*path_no;
+	char	*path_so;
+	char	*path_we;
+	char	*path_ea;
+	char	*path_s;
+}		t_texture;
+
 typedef	struct	s_map
 {
 	int	size;
 	int	sizeX;
 	int	sizeY;
+	int	grid[500][500];
 }		t_map;
+
+typedef	struct	s_params
+{
+	t_window	*window;
+	t_camera	*camera;
+	t_floor		*floor;
+	t_ceiling	*ceiling;
+	t_texture	*texture;
+	t_map		*map;
+}		t_param;
 
 int	ft_atoi(const char *str);
 
-int	get_next_line(int fd, char **line);
+/*
+ * GNL_
+ */
+//int		ft_strlen(const char *str);
+//char	*ft_substr(char const *s, int start, int len);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_strdup(const char *src);
+//int	gnl_write(int fd, char **line, char *still[OPEN_MAX]);
+//int	gnl_read(int fd, int check, int ret, char *still[OPEN_MAX]);
 
-int	check_and_parse(int fd, t_window *win_param);
+	int		check_new_line(char *s);
+	int		get_next_line(int fd, char **line);
+	/*
+	 * CUB3D
+	 */
+	int	check_and_parse(int fd, t_param *param);
 
 #endif

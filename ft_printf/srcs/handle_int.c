@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "../../includes/libftprintf.h"
 #include "../libft/libft.h"
 
 int		get_int_size(t_flags argflags, long n)
