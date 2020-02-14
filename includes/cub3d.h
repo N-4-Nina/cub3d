@@ -21,10 +21,27 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <math.h>
 
 /*
  * CUB3D STRUCTURES
  */
+
+typedef	struct	s_point
+{
+	int	x;
+	int	y;
+}		t_pt;
+
+typedef	struct	s_linedraw
+{
+	t_pt	ori;
+	t_pt	delta;
+	t_pt	delta1;
+	t_pt	p;
+	t_pt	e;
+	int	color;
+}		t_linedraw;
 
 typedef	struct	s_window
 {
@@ -38,6 +55,7 @@ typedef	struct	s_camera
 {
 	int	x;
 	int	y;
+	int	direction;
 }		t_camera;
 
 typedef	struct	s_floor
@@ -68,8 +86,14 @@ typedef	struct	s_map
 	int	size;
 	int	sizeX;
 	int	sizeY;
-	int	grid[500][500];
+	char	**grid;
 }		t_map;
+
+typedef	struct	s_grid
+{
+	int	sizeX;
+	int	sizeY;
+}		t_grid;
 
 typedef	struct	s_params
 {
@@ -99,6 +123,13 @@ char	*ft_strdup(const char *src);
 	/*
 	 * CUB3D
 	 */
-	int	check_and_parse(int fd, t_param *param);
+	void	print_success(t_param *param);
+	int	check_and_parse(char **argv, int fd, t_param *param);
+	int	parse_map_border(int indice, char *line, t_map *m);
+	int	parse_map_line(int indice, char *line, t_map *m, t_camera *c);
+	int	parse_map(int fd, char *line, t_param *p);
+	int	parse_camera(t_camera *c, char dir, char x, char y);
+
+	void	draw_line(t_pt pt, t_pt pt1, int color, t_param *p);
 
 #endif

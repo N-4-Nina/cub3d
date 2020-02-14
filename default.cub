@@ -1,11 +1,11 @@
-R 960 540
-NO ./ressources/seamless-yellow-brown-calais-brick-wall-texture-for-3d.jpg
-SO ./ressources/seamless-yellow-brown-calais-brick-wall-texture-for-3d.jpg
-WE ./ressources/seamless-yellow-brown-calais-brick-wall-texture-for-3d.jpg
-EA ./ressources/seamless-yellow-brown-calais-brick-wall-texture-for-3d.jpg
-S ./ressources/seamless-yellow-brown-calais-brick-wall-texture-for-3d.jpg
-F 250,100,49
-C 125,15,12
+R 1280 800
+NO ./ressources/tex_wall.png
+SO ./ressources/tex_wall.png
+WE ./ressources/tex_wall.png
+EA ./ressources/tex_wall.png
+S ./ressources/tex_wall.png
+F 2,72,16
+C 69,201,255
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0 2 0 0 0 0 0 1 0 0 0 1
