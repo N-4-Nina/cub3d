@@ -34,27 +34,26 @@ int	parse_res(char *line, t_window *param)
 	return (1);
 }
 
-int	parse_floor(char *line, t_floor *floor)
+int	parse_color(char *line, t_color *color)
 {
-	int i;
+	int	R;
+	int	G;
+	int	B;
+	int	convert;
 
-	i = 0;
-	floor -> R = ft_atoi(line);
-	floor -> G = ft_atoi(line + int_size(floor -> R) + 1);
-	floor -> B = ft_atoi(line + int_size(floor -> R) + int_size(floor -> G) + 2);
+	R = ft_atoi(&line[2]);
+	G = ft_atoi(&line[2] + int_size(R) + 1);
+	B = ft_atoi(&line[2] + int_size(R) + int_size(G) + 2);
+	convert = R;
+	convert = (convert << 8) + G;
+	convert = (convert << 8) + B;
+	if (line[0] == 'F')
+		color -> floor = convert;
+	else if (line[0] == 'C')
+		color -> ceiling = convert;
 	return (1);
 }
 
-int	parse_ceiling(char *line, t_ceiling *ceiling)
-{
-	int i;
-
-	i = 0;
-	ceiling -> R = ft_atoi(line);
-	ceiling -> G = ft_atoi(line + int_size(ceiling -> R) + 1);
-	ceiling -> B = ft_atoi(line + int_size(ceiling -> R) + int_size(ceiling -> G) + 2);
-	return (1);
-}
 int	parse_texture(int id, char *line, t_texture *p)
 {
 	int	fd;
@@ -98,33 +97,31 @@ int	isvalid(char *line, t_param *p)
 		ret = parse_texture(4, &line[2], p -> texture);
 	if (line[0] == 'S' && line[1] != 'O')
 		ret = parse_texture(5, &line[2], p -> texture);
-	if (line[0] == 'F')
-		ret = parse_floor(&line[2], p -> floor);
-	if (line[0] == 'C')
-		ret = parse_ceiling(&line[2], p -> ceiling);
+	if (line[0] == 'F' || line[0] == 'C')
+		ret = parse_color(&line[0], p -> color);
 	return (ret);
 }
 
 int	parse_camera(t_camera *c, char dir, char x, char y)
 {
-	c -> x = x;
-	c -> y = y;
+	c -> x = x*64+32;
+	c -> y = y*64+32;
 	if (dir == 'N')
 		c -> direction = 90;
 	else if (dir == 'S')
 		c -> direction = 270;
 	else if (dir == 'E')
-		c -> direction = 0;
-	else if (dir == 'W')
 		c -> direction = 180;
+	else if (dir == 'W')
+		c -> direction = 0;
 	return (1);
 }
 
 void	print_success(t_param *param)
 {
 	ft_printf("window res = %dx%d \n", param-> window -> x, param -> window -> y);
-	ft_printf("floor = R%d G%d B%d \n", param-> floor -> R, param -> floor -> G, param -> floor -> B);
-	ft_printf("ceiling = R%d G%d B%d \n", param-> ceiling -> R, param -> ceiling -> G, param -> ceiling -> B);
+		ft_printf("floor color= %d \n", param-> color ->floor);
+	ft_printf("ceiling = %d \n", param-> color -> ceiling);
 	ft_printf("northtextpath= %s\n", param -> texture -> path_no);
 	ft_printf("southtextpath= %s\n", param -> texture -> path_so);
 	ft_printf("westtextpath= %s\n", param -> texture -> path_we);

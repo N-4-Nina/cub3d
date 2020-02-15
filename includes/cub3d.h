@@ -32,7 +32,12 @@ typedef	struct	s_point
 	int	x;
 	int	y;
 }		t_pt;
-
+/*
+typedef	struct	s_matrix
+{
+	int	x;	
+}
+*/
 typedef	struct	s_linedraw
 {
 	t_pt	ori;
@@ -58,19 +63,11 @@ typedef	struct	s_camera
 	int	direction;
 }		t_camera;
 
-typedef	struct	s_floor
+typedef	struct	s_color
 {
-	int	R;
-	int	G;
-	int	B;
-}		t_floor;
-
-typedef	struct	s_ceiling
-{
-	int	R;
-	int	G;
-	int	B;
-}		t_ceiling;
+	int	ceiling;
+	int	floor;
+}		t_color;
 
 typedef	struct	s_texture
 {
@@ -99,10 +96,12 @@ typedef	struct	s_params
 {
 	t_window	*window;
 	t_camera	*camera;
-	t_floor		*floor;
-	t_ceiling	*ceiling;
+	t_color		*color;
 	t_texture	*texture;
 	t_map		*map;
+	int		toggle;
+	int		sqx;
+	int		sqy;
 }		t_param;
 
 int	ft_atoi(const char *str);
@@ -131,5 +130,10 @@ char	*ft_strdup(const char *src);
 	int	parse_camera(t_camera *c, char dir, char x, char y);
 
 	void	draw_line(t_pt pt, t_pt pt1, int color, t_param *p);
+
+	int	cast_rays(t_param *p);
+
+	void	turn_cam(int i, t_param *p);
+	void	move_cam(t_param *p);
 
 #endif

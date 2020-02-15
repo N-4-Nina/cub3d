@@ -23,7 +23,6 @@ int	parse_map_border(int indice, char *line, t_map *m)
 		i++;
 	}
 	m -> grid[indice][j] = 0;
-	ft_printf("border\n");
 	if (indice != 0)
 		m -> sizeY = indice;
 	if (line[i] == 0)
@@ -102,5 +101,7 @@ int	parse_map(int fd, char *line, t_param *p)
 		y++;
 		free(line);
 	}
+	p->sqx = p->window->x/p->map->sizeX;
+	p->sqy = p->window->y/p->map->sizeY;
 	return (1);
 }

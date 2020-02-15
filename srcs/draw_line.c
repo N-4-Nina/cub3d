@@ -26,6 +26,7 @@ void	dl_Xdir(t_pt pt, t_pt pt1, t_linedraw *s)
 		s->e.x = pt.x;
 	}
 }
+
 void	dl_Ydir(t_pt pt, t_pt pt1, t_linedraw *s)
 {
 	if (s->delta.y >= 0)
@@ -48,14 +49,14 @@ void	dl_Xaxis(t_pt pt, t_pt pt1, t_linedraw *s, t_param *p)
 	while (s->ori.x < s->e.x)
 	{
 		s->ori.x++;
-		if (s->p.x < 0)
+		if (s->p.x <= 0)
 			s->p.x = s->p.x + 2 * s->delta1.y;
 		else
 		{
 			if ((s->delta.x < 0 && s->delta.y < 0) || (s->delta.x > 0 && s->delta.y > 0))
-				s->delta.y++;
+				s->ori.y++;
 			else
-				s->delta.y--;
+				s->ori.y--;
 			s->p.x = s->p.x + 2 * (s->delta1.y - s->delta1.x);
 		}
 		mlx_pixel_put(p->window->mlx, p->window->window, s->ori.x, s->ori.y, s->color);
@@ -74,7 +75,7 @@ void	dl_Yaxis(t_pt pt, t_pt pt1, t_linedraw *s, t_param *p)
 			s->p.y = s->p.y + 2 * s->delta1.x;
 		else
 		{
-			if ((s->delta.x < 0 && s->delta.y<0) || (s->delta.x > 0 && s->delta.y > 0))
+			if ((s->delta.x < 0 && s->delta.y < 0) || (s->delta.x > 0 && s->delta.y > 0))
 				s->ori.x++;
 			else
 				s->ori.x--;
@@ -90,7 +91,7 @@ void	draw_line(t_pt pt, t_pt pt1, int color, t_param *p)
 
 	linedraw_init(pt, pt1, color, &s);
 
-	if (s.delta1.y <= s.delta1.x)
+	if (s.delta1.y < s.delta1.x)
 		dl_Xaxis(pt, pt1, &s, p);
 	else
 		dl_Yaxis(pt, pt1, &s, p);

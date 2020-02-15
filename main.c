@@ -12,25 +12,50 @@
 
 #include "./includes/cub3d.h"
 
+void	draw_grid(t_param *p)
+{
+	int	i = 0;
+	int	j = 0;
+	int	k = 0;
+
+	int x = p->camera->x*p->window->x/(p->map->sizeX*64); 
+	int y = p->camera->y*p->window->y/(p->map->sizeY*64);
+	int x1;
+	int y1;
+
+	while (j <= p->map->sizeX)
+	{
+		draw_line((t_pt){i, 0}, (t_pt){i,p->window->x}, 16777215, p);
+		i += p->sqx;
+		j++;
+	}
+	i = 0;
+	j= 0;
+	while (j <= p->map->sizeY)
+	{
+		draw_line((t_pt){0, i}, (t_pt){p->window->x, i}, 16777215, p);
+		i += p-> sqy;
+		j++;
+	}
+	k = -30;
+	while (k<30)
+	{
+		x1 = x - cos((p->camera->direction + k) * 0.0174533)*40;
+		y1 = y - sin((p->camera-> direction + k) * 0.0174533)*40;
+		draw_line((t_pt){x,y}, (t_pt){x1, y1}, 0xBFFE3E, p);
+		k++;
+	}
+}
+
 int	loop_hook(void *param)
 {
-	t_pt	pt;
-	t_pt	pt1;
 	t_param	*p;
 	p = (t_param*)param;
 
-	pt = (t_pt){0,400};
-	pt1 = (t_pt){1280, 400};
-	draw_line(pt, pt1,16777215, param);
-	pt = (t_pt){640,0};
-	pt1 = (t_pt){640, 400};
-	draw_line(pt, pt1,16777215, param);
-	pt = (t_pt){960,0};
-	pt1 = (t_pt){320,800};
-	draw_line(pt, pt1,16777215, param);
-	pt = (t_pt){320,0};
-	pt1 = (t_pt){960,800};
-	draw_line(pt, pt1,16777215, param);
+
+	if (p->toggle)
+		draw_grid(p);
+	//cast_rays(p);
 	mlx_clear_window(p->window->mlx, p->window->window);
 	return (1);
 }
@@ -43,31 +68,34 @@ int	keycode(int keycode, void *param)
 
 
 	p = (t_param*)param;
-/*	pt = (t_pt){0,400};
-	pt1 = (t_pt){1280, 400};
-	*/
+	/*	pt = (t_pt){0,400};
+		pt1 = (t_pt){1280, 400};
+		*/
 	if (keycode == 53)
 		exit(keycode);
-	/*
+
+	if (keycode == 41)
+	{
+		if (p->toggle)
+			p->toggle = 0;
+		else
+			p->toggle = 1;
+	}
+	if (keycode == 126)
+		move_cam(p);
+	if (keycode == 123)
+	{
+		turn_cam(-2, p);
+		return(keycode);
+	}
 	if (keycode == 124)
 	{
-		draw_line(pt, pt1,16777215, param);
-		pt = (t_pt){640,0};
-		pt1 = (t_pt){640, 400};
-		draw_line(pt, pt1,16777215, param);
-		pt = (t_pt){960,0};
-		pt1 = (t_pt){320,800};
-		draw_line(pt, pt1,16777215, param);
-		pt = (t_pt){320,0};
-		pt1 = (t_pt){960,800};
-		draw_line(pt, pt1,16777215, param);
+		turn_cam(2, p);
+		return(keycode);
 	}
-	if (keycode == 123)
-		mlx_clear_window(p->window->mlx, p->window->window);
-		*/
 	else
 		ft_printf("keycode = %d. \n", keycode);
-	return (keycode);
+	   return (keycode);
 }
 
 void	check_arg(char **argv, t_param *param)
@@ -101,9 +129,9 @@ void	init_p(t_param *param)
 	param->map = (t_map *)malloc(sizeof(t_map));
 	param->window = (t_window *)malloc(sizeof(t_window));
 	param->texture = (t_texture *)malloc(sizeof(t_texture));
-	param->floor = (t_floor *)malloc(sizeof(t_floor));
-	param->ceiling = (t_ceiling *)malloc(sizeof(t_ceiling));
+	param->color = (t_color *)malloc(sizeof(t_color));
 	param->camera = (t_camera *)malloc(sizeof(t_camera));
+	param->toggle = 0;
 	ft_printf("init_p finished\n");
 }
 
