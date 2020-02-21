@@ -25,11 +25,11 @@ int	int_size(int nb)
 	return (i);
 }
 
-int	parse_res(char *line, t_window *param)
+int	parse_res(char *line, t_window *window)
 {
-	param -> x = ft_atoi(line);
-	param -> y = ft_atoi(line + int_size(param -> x) + 1);
-	if (!(param -> x) || ! (param -> y))
+	window -> x = ft_atoi(line);
+	window -> y = ft_atoi(line + int_size(window -> x) + 1);
+	if (!(window -> x) || ! (window -> y))
 		return (0);
 	return (1);
 }
@@ -111,9 +111,9 @@ int	parse_camera(t_camera *c, char dir, char x, char y)
 	else if (dir == 'S')
 		c -> direction = 270;
 	else if (dir == 'E')
-		c -> direction = 180;
-	else if (dir == 'W')
 		c -> direction = 0;
+	else if (dir == 'W')
+		c -> direction = 180;
 	return (1);
 }
 
@@ -185,6 +185,9 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 		get_next_line(fd, &line);
 		offset++;
 	}
+	//param->scrdist = (param->window->x/2) / tan(30);
+	param->scrdist = 277;
+	param->sizeconst = 64/param->scrdist;
 	param->map->sizeY = get_sizeY(argv[1], &line, fd, offset);
 	if (line[0] != '1')
 		return (0);

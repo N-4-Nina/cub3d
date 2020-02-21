@@ -102,6 +102,8 @@ typedef	struct	s_params
 	int		toggle;
 	int		sqx;
 	int		sqy;
+	int		scrdist;
+	int		sizeconst;
 }		t_param;
 
 int	ft_atoi(const char *str);
@@ -134,6 +136,6 @@ char	*ft_strdup(const char *src);
 	int	cast_rays(t_param *p);
 
 	void	turn_cam(int i, t_param *p);
-	void	move_cam(t_param *p);
+	void	move_cam(char d,t_param *p);
 
 #endif

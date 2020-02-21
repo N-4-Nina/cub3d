@@ -55,7 +55,7 @@ int	loop_hook(void *param)
 
 	if (p->toggle)
 		draw_grid(p);
-	//cast_rays(p);
+	cast_rays(p);
 	mlx_clear_window(p->window->mlx, p->window->window);
 	return (1);
 }
@@ -82,7 +82,9 @@ int	keycode(int keycode, void *param)
 			p->toggle = 1;
 	}
 	if (keycode == 126)
-		move_cam(p);
+		move_cam('z', p);
+	if (keycode == 125)
+		move_cam('s', p);
 	if (keycode == 123)
 	{
 		turn_cam(-2, p);

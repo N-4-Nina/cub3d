@@ -85,7 +85,7 @@ int	parse_map(int fd, char *line, t_param *p)
 	i = 0;
 	y = 1;
 	p -> map -> sizeX = get_sizeX(line);
-	p -> map -> grid = malloc(sizeof(int*) * p->map->sizeY);
+	p -> map -> grid = malloc(sizeof(char*) * p->map->sizeY);
 	if (!(parse_map_border(0, line, p -> map)))
 		return (0);
 	while (get_next_line(fd, &line))
