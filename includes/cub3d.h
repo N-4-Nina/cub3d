@@ -32,12 +32,16 @@ typedef	struct	s_point
 	int	x;
 	int	y;
 }		t_pt;
-/*
-typedef	struct	s_matrix
+
+typedef	struct	s_ray
 {
-	int	x;	
-}
-*/
+	t_pt	H;
+	t_pt	V;
+	t_pt	Ha;
+	t_pt	Va;
+
+}		t_ray;
+
 typedef	struct	s_linedraw
 {
 	t_pt	ori;
