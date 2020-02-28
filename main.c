@@ -87,12 +87,12 @@ int	keycode(int keycode, void *param)
 		move_cam('s', p);
 	if (keycode == 123)
 	{
-		turn_cam(-2, p);
+		turn_cam(2, p);
 		return(keycode);
 	}
 	if (keycode == 124)
 	{
-		turn_cam(2, p);
+		turn_cam(-2, p);
 		return(keycode);
 	}
 	else

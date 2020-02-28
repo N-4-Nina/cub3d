@@ -185,9 +185,8 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 		get_next_line(fd, &line);
 		offset++;
 	}
-	param->scrdist = (param->window->x/2) / tan(30*0.017);
-	//param->scrdist = 277;
-	param->sizeconst = 64/param->scrdist;
+	param->scrdist = (param->window->x/2) / tan(30*0.0174533);
+	param->sizeconst = (float)64/param->scrdist;
 	param->map->sizeY = get_sizeY(argv[1], &line, fd, offset);
 	if (line[0] != '1')
 		return (0);

@@ -107,7 +107,7 @@ typedef	struct	s_params
 	int		sqx;
 	int		sqy;
 	int		scrdist;
-	int		sizeconst;
+	float		sizeconst;
 }		t_param;
 
 int	ft_atoi(const char *str);
