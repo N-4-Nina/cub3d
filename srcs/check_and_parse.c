@@ -25,11 +25,21 @@ int	int_size(int nb)
 	return (i);
 }
 
-int	parse_res(char *line, t_window *window)
+int	parse_res(char *line, t_param *p)
 {
-	window -> x = ft_atoi(line);
-	window -> y = ft_atoi(line + int_size(window -> x) + 1);
-	if (!(window -> x) || ! (window -> y))
+	//int x;
+	//int y;
+
+	p -> window -> x = ft_atoi(line);
+	p -> window -> y = ft_atoi(line + int_size(p-> window -> x) + 1);
+	/*
+	mlx_get_screen_size(p->window->mlx, &x, &y);
+	if (p -> window -> x > x)
+		p -> window -> x = x;
+	if (p-> window -> y > y)
+		p -> window -> y = y;
+		*/
+	if (!(p -> window -> x) || ! (p -> window -> y))
 		return (0);
 	return (1);
 }
@@ -54,26 +64,25 @@ int	parse_color(char *line, t_color *color)
 	return (1);
 }
 
-int	parse_texture(int id, char *line, t_texture *p)
+int	parse_texture(int id, char *line, t_param *p)
 {
 	int	fd;
+	int w;
+	int h;
 
+	w = 64;
+	h = 64;
 	while (*line == ' ')
 		line++;
 	fd = open(line, O_RDONLY);
 	if (fd > 1)
 	{
-		if (id == 1)
-			p -> path_no = ft_strdup(line);
-		else if (id == 2)
-			p -> path_so = ft_strdup(line);
-		else if (id == 3)
-			p -> path_we = ft_strdup(line);
-		else if (id == 4)
-			p -> path_ea = ft_strdup(line);
-		else if (id == 5)
-			p -> path_s = ft_strdup(line);
 		close(fd);
+		//p->tex[id].img = mlx_new_image(p->window->mlx, 64, 64);
+		//p->tex[id].path = ft_strdup(line);
+		p->tex[id].img = mlx_xpm_file_to_image(p->window->mlx, line, &p->tex[id].w, &p->tex[id].h);
+		p -> tex[id].ptr = mlx_get_data_addr(p->tex[id].img, &p->tex[id].bpp, &p->tex[id].size_line, &p->tex[id].endian);
+		printf("parsed texture: %s; \n bpp: %d, sizeline: %d, endian: %d\n", line, p->tex[id].bpp, p->tex[id].size_line, p->tex[id].endian);
 		return (1);
 	}
 	else
@@ -86,34 +95,57 @@ int	isvalid(char *line, t_param *p)
 
 	ret = 0;
 	if (line[0] == 'R')
-		ret = parse_res(&line[2], p -> window);
+		ret = parse_res(&line[2], p);
 	if (line[0] == 'N' && line[1] == 'O')
-		ret = parse_texture(1, &line[2], p -> texture);
+		ret = parse_texture(0, &line[2], p);
 	if (line[0] == 'S' && line[1] == 'O')
-		ret = parse_texture(2, &line[2], p -> texture);
+		ret = parse_texture(1, &line[2], p);
 	if (line[0] == 'W' && line[1] == 'E')
-		ret = parse_texture(3, &line[2], p -> texture);
+		ret = parse_texture(2, &line[2], p);
 	if (line[0] == 'E' && line[1] == 'A')
-		ret = parse_texture(4, &line[2], p -> texture);
+		ret = parse_texture(3, &line[2], p);
 	if (line[0] == 'S' && line[1] != 'O')
-		ret = parse_texture(5, &line[2], p -> texture);
+		ret = parse_texture(4, &line[2], p);
 	if (line[0] == 'F' || line[0] == 'C')
 		ret = parse_color(&line[0], p -> color);
 	return (ret);
 }
 
-int	parse_camera(t_camera *c, char dir, char x, char y)
+int	parse_camera(t_param *p, char dir, int x, int y)
 {
-	c -> x = x*64+32;
-	c -> y = y*64+32;
+	p->pos.x = FT(x) + 0.5;
+	p->pos.y = FT(y) + 0.5;
+
 	if (dir == 'N')
-		c -> direction = 90;
+	{
+		p->dir.x = 0;
+		p->dir.y = -1;
+		p -> plane.x = 0.66;
+		p->plane.y = 0;
+	}
 	else if (dir == 'S')
-		c -> direction = 270;
+	{
+		p->dir.x = 0;
+		p->dir.y = 1;
+		p -> plane.x = -0.66;
+		p->plane.y = 0;
+	}
 	else if (dir == 'E')
-		c -> direction = 0;
+	{
+		p -> dir.x = 1;
+		p -> dir.y = 0;
+		p -> plane.x = 0;
+		p->plane.y = -0.66;
+	}
 	else if (dir == 'W')
-		c -> direction = 180;
+	{
+		p -> dir.x = -1;
+		p -> dir.y = 0;
+		p -> plane.x = 0;
+		p->plane.y = 0.66;
+	}
+	//p -> dir.x = cos(p->camera->direction * RAD);
+	//p -> dir.y = sin(p->camera->direction * RAD);
 	return (1);
 }
 
@@ -122,25 +154,20 @@ void	print_success(t_param *param)
 	ft_printf("window res = %dx%d \n", param-> window -> x, param -> window -> y);
 		ft_printf("floor color= %d \n", param-> color ->floor);
 	ft_printf("ceiling = %d \n", param-> color -> ceiling);
-	ft_printf("northtextpath= %s\n", param -> texture -> path_no);
-	ft_printf("southtextpath= %s\n", param -> texture -> path_so);
-	ft_printf("westtextpath= %s\n", param -> texture -> path_we);
-	ft_printf("easttextpath= %s\n", param -> texture -> path_ea);
-	ft_printf("spritetextpath= %s\n", param -> texture -> path_s);
 	ft_printf("-------------------\n");
 	ft_printf("map size = %dx%d\n", param -> map -> sizeX, param -> map -> sizeY);
-	ft_printf("camera starts at %dx%d facing %d°\n", param -> camera -> x, param -> camera -> y, param -> camera -> direction);
+	printf("camera starts at %fx%f facing %d°\n", param-> pos.x, param -> pos.y, param -> camera -> direction);
 	ft_printf("-------------------\n");
-	int i = 0;
+	int x = 0;
 	int y = 0;
 	while (y <= param -> map -> sizeY)
 	{
-		while (i < param -> map -> sizeX)
+		while (x < param -> map -> sizeX)
 		{
-			ft_printf("%c ", param -> map -> grid[y][i]);
-			i++;
+			ft_printf("%c ", param -> map -> grid[x][y]);
+			x++;
 		}
-		i = 0;
+		x = 0;
 		write(1, "\n", 1);
 		y++;
 	}
@@ -185,7 +212,7 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 		get_next_line(fd, &line);
 		offset++;
 	}
-	param->scrdist = (param->window->x/2) / tan(30*0.0174533);
+	param->scrdist = round(param->window->x/2 / tan((FOV/2) * RAD));
 	param->sizeconst = (float)64/param->scrdist;
 	param->map->sizeY = get_sizeY(argv[1], &line, fd, offset);
 	if (line[0] != '1')

@@ -1,0 +1,53 @@
+#include "../includes/cub3d.h"
+
+void  pxl_to_frame(int x, int y, t_param *p)
+{
+
+	
+	if (x < p->window->x && y < p->window->y)
+	{
+		p->texpt.y = abs((((y * 256 - p->window->y * 128 + p->height * 128) * 64)
+					/ p->height) / 256);
+		ft_memcpy(p->frameptr + 4 * p->window->x * y + x * 4,
+				&p->tex[0].ptr[p->texpt.y % 64 * p->tex[0].size_line +
+				p->texpt.x % 64 * p->tex[0].bpp / 8], sizeof(int));
+	}
+}
+
+void draw_ceiling(int x, int top, t_param *p)
+{
+	int y;
+	y = 0;
+	while (y < top)
+	{
+		ft_memcpy(p->frameptr + 4 * p->window->x * y + x * 4, &p->color->ceiling, sizeof(int));
+		y++;
+	}
+}
+void draw_floor(int x, int bot, t_param *p)
+{
+	while (bot < p->window->y)
+	{
+		ft_memcpy(p->frameptr + 4 * p->window->x * bot + x * 4, &p->color->floor, sizeof(int));
+		bot++;
+	}
+}
+void add_slice(int x, int top, int bot, t_param *p)
+{
+	p->id = p->map->grid[p->mappt.x][p->mappt.y];
+
+	if (p->side == 0)
+		p->x_wall = p->raypos.y + p->walldist * p->raydir.y;
+	else
+		p->x_wall = p->raypos.x + p->walldist * p->raydir.x;
+	p->texpt.x = I(p->x_wall * FT(64));
+	if (p->side == 0 && p->raydir.x > 0)
+		p->texpt.x = 64 - p->texpt.x - 1;
+	if (p->side == 1 && p->raydir.y < 0)
+		p->texpt.x = 64 - p->texpt.x - 1;
+	p->texpt.x = abs(p->texpt.x);
+	draw_ceiling(x, top+1, p);
+	while (++top <= bot)
+		pxl_to_frame(x, top, p);
+	draw_floor(x, bot, p);
+}

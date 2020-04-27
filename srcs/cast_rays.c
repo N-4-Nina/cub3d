@@ -6,7 +6,7 @@ void	draw_slice(t_param *p, int x, int dist)
 	int	ya;
 	int	yb;
 
-	psh =  p->scrdist/dist;
+	psh =  (int)floor(p->window->x/dist);
 	ya = (p->window->y/2) - (psh/2);
 	yb = (p->window->y/2) + (psh/2);
 
@@ -53,30 +53,33 @@ int	cast_ray(double angle, t_param *p)
 	printf("\n\ntrying to cast ray with angle %f\n--------------\n", angle);
 	printf("camera is at y= %d, x= %d\n", p->camera->y, p->camera->x);
 
-	H.y = (angle < 180) ? round(p->camera->y/64) * 64 - 1 : round(p->camera->y/64) * 64 + 64;
+	H.y = (I(angle) < 180) ? round(p->camera->y/64) * 64 - 1 : round(p->camera->y/64) * 64 + 64;
 	H.x = p->camera->x + (p->camera->y - H.y)/tan(angle *0.0174533);
-	ft_printf("first hori intersection coords: %d, %d \n", H.y/64, H.x/64);
+	ft_printf("first hori intersection coords: %d, %d \n", H.x/64, H.y/64);
 
 	if (!oobcheck(H, p))
 	{
-		ft_printf("first hori intersection value: %d\n", p->map->grid[H.y/64][H.x/64]);
+		ft_printf("first hori intersection value: %d\n", p->map->grid[H.x/64][H.y/64]);
 		Ha.y = (angle < 180) ? -64 : 64;
+		Ha.y = (round(angle) == 90 || round(angle) == 180) ? 0 : Ha.y;
 		Ha.x = tan(angle*0.017);
 
-		if (p->map->grid[H.y/64][H.x/64] == 49)
-			disth = sqrt(pow(p->camera->x - H.x,2)+ pow(p->camera->y-H.y, 2));
+		if (p->map->grid[H.x/64][H.y/64] == 49)
+			disth = sqrt(pow(p->camera->x - H.x,2) + pow(p->camera->y-H.y, 2));
 	}
+
 	V.x = (angle > 90 && angle < 270) ? round(p->camera->x/64) * 64 + 64 : round(p->camera->x/64) * 64 - 1;
 	V.y = (p->camera->y + (p->camera->x - V.x) * tan(angle*0.0174533));
-	ft_printf("first vert intersection coords: %d, %d \n", V.y/64, V.x/64);
+	ft_printf("first vert intersection coords: %d, %d \n", V.x/64, V.y/64);
 
 	if (!oobcheck(V, p))
 	{
-		ft_printf("first vert intersection value: %d\n", p->map->grid[V.y/64][V.x/64]);
+		ft_printf("first vert intersection value: %d\n", p->map->grid[V.x/64][V.y/64]);
 		Va.x = (angle > 90 || angle < 270) ? 64 : -64;
+		Va.x = (round(angle) == 90 || round(angle) == 180) ? 0 : Va.x;
 		Va.y = tan(angle*0.017);
 
-		if (p->map->grid[V.y/64][V.x/64] == 49 && disth > abs(p->camera->y - V.y) /sin(angle*0.0174533))
+		if (p->map->grid[V.x/64][V.y/64] == 49 && disth > abs(p->camera->y - V.y) /sin(angle*0.0174533))
 			distv = sqrt(pow(p->camera->x - V.x,2)+ pow(p->camera->y-V.y, 2));
 	}
 
@@ -97,9 +100,9 @@ int	cast_ray(double angle, t_param *p)
 		{
 			if (!oobcheck(H,p))
 			{
-				printf("next horizontal intersection: %d, %d\n", H.y/64, H.x/64);
-				ft_printf("next horizontal intersection value: %d\n", p->map->grid[H.y/64][H.x/64]);
-				if (p->map->grid[H.y/64][H.x/64] == 49)
+				printf("next horizontal intersection: %d, %d\n", H.x/64, H.y/64);
+				ft_printf("next horizontal intersection value: %d\n", p->map->grid[H.x/64][H.y/64]);
+				if (p->map->grid[H.x/64][H.y/64] == 49)
 				{
 					hit = 1;
 					disth = sqrt(pow(p->camera->x - H.x,2)+ pow(p->camera->y-H.y, 2));
@@ -108,9 +111,9 @@ int	cast_ray(double angle, t_param *p)
 			}
 			if (!oobcheck(V, p))
 			{
-				printf("next vertical intersection: %d, %d\n", V.y/64, V.x/64);
-				ft_printf("next vertical intersection value: %d\n", p->map->grid[V.y/64][V.x/64]);
-				if (p->map->grid[V.y/64][V.x/64] == 49)
+				printf("next vertical intersection: %d, %d\n", V.x/64, V.y/64);
+				ft_printf("next vertical intersection value: %d\n", p->map->grid[V.x/64][V.y/64]);
+				if (p->map->grid[V.x/64][V.y/64] == 49)
 				{
 					hit = 1;
 					distv = sqrt(pow(p->camera->x - V.x,2)+ pow(p->camera->y-V.y, 2));
@@ -119,7 +122,7 @@ int	cast_ray(double angle, t_param *p)
 			}
 			if (hit)
 			{
-				dist = (distv < disth && distv != 0) ? distv : disth;
+				dist = (distv < disth && disth && distv) ? distv : disth;
 				dist = dist * cos((angle - p->camera->direction)*0.0174533);
 				return (dist);
 			}
