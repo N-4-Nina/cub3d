@@ -26,22 +26,23 @@ SOURCES =  srcs/move_cam.c \
 	   srcs/draw.c \
 	   srcs/draw_line.c \
 	   srcs/check_and_parse.c \
+	   srcs/exit.c \
 	   main.c
 
 OBJS	= ${SOURCES:.c=.o}
 
 ifeq ($(OS), Linux)
-	MLX_DIR	= minilibx-linux/
+	MLX_DIR	= linux/minilibx-linux/
 	MLX_LNK	= -L ${MLX_DIR} -lmlx -lXext -lX11 -lbsd
-	SOURCES += get_next_line/linux/get_next_line.c
+	SOURCES += linux/get_next_line.c
 else
-	MLX_DIR	= minilibx_opengl
+	MLX_DIR	= osx/minilibx_opengl
 	MLX_LNK	= -L ${MLX_DIR} -lmlx -framework OpenGL -framework AppKit
-	SOURCES += get_next_line/osx/get_next_line.c
+	SOURCES += osx/get_next_line.c
 endif
 
 .c.o:
-	${CC} ${CFLAGS} ${GNLBUFF} -c $< -o ${<:.c=.o} ${INC}
+	${CC} ${CFLAGS} ${GNLBUFF} -c $< -o ${<:.c=.o} ${INCLUDES}
 
 all : $(NAME)
 

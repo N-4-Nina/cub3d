@@ -14,7 +14,9 @@
 # define CUB3D_H
 
 
-#include "../minilibx-linux/mlx.h"
+#include "../linux/minilibx-linux/mlx.h"
+#include "../osx/minilibx_opengl/mlx.h"
+#include "keycodes.h"
 //#include "get_next_line.h"
 #include "../libft/libft.h"
 #include <stdlib.h>
@@ -193,5 +195,6 @@ char	*ft_strdup(const char *src);
 	void	check_print(t_param *p);
 	void  turn(t_param *p);
 
+	void free_and_exit(t_param *p);
 
 #endif

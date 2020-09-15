@@ -2,7 +2,7 @@
 
 void	move_cam(t_param *p)
 {
-	if (p->key[122])
+	if (p->key[FORWARD])
 	{
 		if (p->map->grid[I(p->pos.x + p->dir.x * p->speed)][I(p->pos.y)] == 48)
 		{
@@ -15,7 +15,7 @@ void	move_cam(t_param *p)
 			p->camera->y += p->camera->y * p->speed;
 		}
 	}
-	if (p->key[115])
+	if (p->key[BACK])
 	{
 		if (p->map->grid[I(p->pos.x - p->dir.x * p->speed)][I(p->pos.y)] == 48)
 		{
@@ -35,7 +35,7 @@ void	turn(t_param *p)
 	double oldDirX;
 	double oldPlaneX;
 
-	if (p->key[65363])
+	if (p->key[LTURN])
 	{
 	oldDirX = p->dir.x;
 	p->dir.x = p->dir.x * cos(-p->rotspeed) - p->dir.y * sin(-p->rotspeed);
@@ -44,7 +44,7 @@ void	turn(t_param *p)
 	p->plane.x = p->plane.x * cos(-p->rotspeed) - p->plane.y * sin(-p->rotspeed);
 	p->plane.y = oldPlaneX * sin(-p->rotspeed) + p->plane.y * cos(-p->rotspeed);
 }
-	if (p->key[65361])
+	if (p->key[RTURN])
 	{
 	double oldDirX = p->dir.x;
   p->dir.x = p->dir.x * cos(p->rotspeed) - p->dir.y * sin(p->rotspeed);
@@ -52,5 +52,5 @@ void	turn(t_param *p)
   double oldPlaneX = p->plane.x;
   p->plane.x = p->plane.x * cos(p->rotspeed) - p->plane.y * sin(p->rotspeed);
   p->plane.y = oldPlaneX * sin(p->rotspeed) + p->plane.y * cos(p->rotspeed);
-}
+	}
 }
