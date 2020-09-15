@@ -16,6 +16,8 @@ int	keyrelease(int keycode, void *param)
 	t_param	*p;
 
 	p = (t_param*)param;
+	p->key[keycode] = 0;
+	/*
 	if (keycode == 41)
 		p->key[41] = 0;
 	if (keycode == 123)
@@ -26,6 +28,9 @@ int	keyrelease(int keycode, void *param)
 		p->key[126] = 0;
 	if (keycode == 125)
 		p->key[125] = 0;
+	else
+		printf("%d\n", keycode);
+		*/
 	return (keycode);
 }
 
@@ -34,8 +39,10 @@ int	keypress(int keycode, void *param)
 	t_param	*p;
 
 	p = (t_param*)param;
+	p->key[keycode] = 1;
 	if (keycode == 53)
 		exit(keycode);
+	/*
 	if (keycode == 41)
 		p->key[41] = 1;
 	if (keycode == 123)
@@ -48,7 +55,6 @@ int	keypress(int keycode, void *param)
 		p->key[125] = 1;
 	if (keycode == 35)
 		check_print(p);
-	else
-		ft_printf("keycode = %d. \n", keycode);
+	*/
 	return (keycode);
 }

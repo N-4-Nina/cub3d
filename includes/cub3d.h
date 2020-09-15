@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/02/05 16:22:18 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/14 17:55:58 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define CUB3D_H
 
 
-#include "../minilibx_opengl_20191021/mlx.h"
+#include "../minilibx-linux/mlx.h"
 //#include "get_next_line.h"
-#include "../ft_printf/libft/libft.h"
-#include "libftprintf.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <math.h>
+#include <stdio.h>
 
 # define PI 3.14159265359
 # define RAD 0.01745329251
@@ -134,7 +134,7 @@ typedef	struct	s_params
 	t_fpt		sidedist;
 	t_fpt		delta;
 
-	int		key[255];
+	int		key[70000];
 	int		id;
 	int		hit;
 	int		side;
@@ -192,7 +192,6 @@ char	*ft_strdup(const char *src);
 
 	void	check_print(t_param *p);
 	void  turn(t_param *p);
-
 
 
 #endif

@@ -1,4 +1,4 @@
-R 1280 640
+R 2560 1280
 NO ./ressources/tex_wall_N.xpm
 SO ./ressources/tex_wall_S.xpm
 WE ./ressources/tex_wall_W.xpm

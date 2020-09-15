@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:11:00 by abouchau          #+#    #+#             */
-/*   Updated: 2020/02/05 17:04:28 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/14 16:09:23 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,20 +151,20 @@ int	parse_camera(t_param *p, char dir, int x, int y)
 
 void	print_success(t_param *param)
 {
-	ft_printf("window res = %dx%d \n", param-> window -> x, param -> window -> y);
-		ft_printf("floor color= %d \n", param-> color ->floor);
-	ft_printf("ceiling = %d \n", param-> color -> ceiling);
-	ft_printf("-------------------\n");
-	ft_printf("map size = %dx%d\n", param -> map -> sizeX, param -> map -> sizeY);
+	printf("window res = %dx%d \n", param-> window -> x, param -> window -> y);
+		printf("floor color= %d \n", param-> color ->floor);
+	printf("ceiling = %d \n", param-> color -> ceiling);
+	printf("-------------------\n");
+	printf("map size = %dx%d\n", param -> map -> sizeX, param -> map -> sizeY);
 	printf("camera starts at %fx%f facing %d°\n", param-> pos.x, param -> pos.y, param -> camera -> direction);
-	ft_printf("-------------------\n");
+	printf("-------------------\n");
 	int x = 0;
 	int y = 0;
 	while (y <= param -> map -> sizeY)
 	{
 		while (x < param -> map -> sizeX)
 		{
-			ft_printf("%c ", param -> map -> grid[x][y]);
+			printf("%c ", param -> map -> grid[x][y]);
 			x++;
 		}
 		x = 0;
