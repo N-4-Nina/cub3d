@@ -29,7 +29,7 @@ int	keypress(int keycode, void *param)
 
 	p = (t_param*)param;
 	p->key[keycode] = 1;
-	if (keycode == 53)
+	if (keycode == ESCAPE)
 		free_and_exit(p);
 	return (keycode);
 }

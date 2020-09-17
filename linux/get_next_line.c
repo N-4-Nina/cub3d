@@ -6,11 +6,12 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 12:44:58 by abouchau          #+#    #+#             */
-/*   Updated: 2020/01/30 15:50:46 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:29:18 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <limits.h>
 
 int	check_new_line(char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/14 17:55:58 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:49:18 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <limits.h>
+
 #include <math.h>
 #include <stdio.h>
-
+#include <bits/stdio_lim.h>
 # define PI 3.14159265359
 # define RAD 0.01745329251
 # define FOV 66

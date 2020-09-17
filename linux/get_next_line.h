@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 12:45:41 by abouchau          #+#    #+#             */
-/*   Updated: 2020/01/30 15:51:11 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:50:06 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <limits.h>
+# include <stdio.h>
 
 int		check_new_line(char *s);
 int		get_next_line(int fd, char **line);

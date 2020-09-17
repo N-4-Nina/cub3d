@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:11:00 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/14 16:09:23 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:55:11 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ int	int_size(int nb)
 
 int	parse_res(char *line, t_param *p)
 {
-	//int x;
-	//int y;
+	int x;
+	int y;
 
 	p -> window -> x = ft_atoi(line);
 	p -> window -> y = ft_atoi(line + int_size(p-> window -> x) + 1);
-	/*
+	
 	mlx_get_screen_size(p->window->mlx, &x, &y);
 	if (p -> window -> x > x)
 		p -> window -> x = x;
 	if (p-> window -> y > y)
 		p -> window -> y = y;
-		*/
+		
 	if (!(p -> window -> x) || ! (p -> window -> y))
 		return (0);
 	return (1);
