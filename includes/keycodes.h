@@ -12,12 +12,12 @@
 #define ESCAPE 65307
 
 #else
-#define LTURN 124
-#define RTURN 123
+#define LTURN 123
+#define RTURN 124
 #define FORWARD 13
 #define LEFT 0
-#define RIGHT 1
-#define BACK 2
+#define RIGHT 2
+#define BACK 1
 #define ESCAPE 53
 
 #endif

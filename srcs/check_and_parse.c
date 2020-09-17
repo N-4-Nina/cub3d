@@ -27,18 +27,19 @@ int	int_size(int nb)
 
 int	parse_res(char *line, t_param *p)
 {
+	/*
 	int x;
 	int y;
-
+	*/
 	p -> window -> x = ft_atoi(line);
 	p -> window -> y = ft_atoi(line + int_size(p-> window -> x) + 1);
-	
+	/*
 	mlx_get_screen_size(p->window->mlx, &x, &y);
 	if (p -> window -> x > x)
 		p -> window -> x = x;
 	if (p-> window -> y > y)
 		p -> window -> y = y;
-		
+		*/
 	if (!(p -> window -> x) || ! (p -> window -> y))
 		return (0);
 	return (1);
@@ -113,6 +114,9 @@ int	isvalid(char *line, t_param *p)
 
 int	parse_camera(t_param *p, char dir, int x, int y)
 {
+	if (p->dirparsed)
+		return (0);
+	p->dirparsed = 1;
 	p->pos.x = FT(x) + 0.5;
 	p->pos.y = FT(y) + 0.5;
 
@@ -144,8 +148,6 @@ int	parse_camera(t_param *p, char dir, int x, int y)
 		p -> plane.x = 0;
 		p->plane.y = 0.66;
 	}
-	//p -> dir.x = cos(p->camera->direction * RAD);
-	//p -> dir.y = sin(p->camera->direction * RAD);
 	return (1);
 }
 
@@ -155,16 +157,16 @@ void	print_success(t_param *param)
 		printf("floor color= %d \n", param-> color ->floor);
 	printf("ceiling = %d \n", param-> color -> ceiling);
 	printf("-------------------\n");
-	printf("map size = %dx%d\n", param -> map -> sizeX, param -> map -> sizeY);
+	printf("map size = %dx%d\n", param -> map -> size.x, param -> map -> size.y);
 	printf("camera starts at %fx%f facing %d°\n", param-> pos.x, param -> pos.y, param -> camera -> direction);
 	printf("-------------------\n");
 	int x = 0;
 	int y = 0;
-	while (y <= param -> map -> sizeY)
+	while (y < param -> map -> size.y)
 	{
-		while (x < param -> map -> sizeX)
+		while (x < param -> map -> size.x)
 		{
-			printf("%c ", param -> map -> grid[x][y]);
+			write(1, &param -> map -> grid[x][y], 1);
 			x++;
 		}
 		x = 0;
@@ -173,30 +175,34 @@ void	print_success(t_param *param)
 	}
 }
 
-int	get_sizeY(char *file, char **line, int fd, int offset)
+t_pt	get_map_dimensions(char *file, char **line, int fd, int offset)
 {
-	int	i;
+	t_pt dim;
 	int	j;
 
-	i = 0;
+	dim.x = 0;
+	dim.y = 0;
 	j = 0;
-	while (*line[0] == '1')
+	while (*line[0] == '1' || *line[0] == ' ')
 	{
+		if (dim.x < I ft_strlen(*line))
+			dim.x = ft_strlen(*line);
 		free(*line);
 		get_next_line(fd, line);
-		i++;
+		dim.y++;
+
 	}
 	free(*line);
 	close(fd);
 	fd = open(file, O_RDONLY);
 	get_next_line(fd, line);
-	while (j < offset-1)
+	while (j < offset - 1)
 	{
 		free(*line);
 		get_next_line(fd, line);
 		j++;
 	}
-	return (i);
+	return (dim);
 }
 
 int	check_and_parse(char **argv, int fd, t_param *param)
@@ -204,7 +210,7 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	char	*line;
 	int	offset;
 
-	offset = 1;
+	offset = 0;
 	get_next_line(fd, &line);
 	while (isvalid(line, param))
 	{
@@ -214,9 +220,7 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	}
 	param->scrdist = round(param->window->x/2 / tan((FOV/2) * RAD));
 	param->sizeconst = (float)64/param->scrdist;
-	param->map->sizeY = get_sizeY(argv[1], &line, fd, offset);
-	if (line[0] != '1')
-		return (0);
+	param->map->size = get_map_dimensions(argv[1], &line, fd, offset);
 	if (!(parse_map(fd, line, param)))
 		return (0);
 	else

@@ -2,7 +2,7 @@
 
 int	check_hit(t_param *p)
 {
-	if (p->mappt.x < 0. || p->mappt.y < 0. || p->mappt.x >= FT(p->map->sizeX) || p->mappt.y >= FT(p->map->sizeY))
+	if (p->mappt.x < 0. || p->mappt.y < 0. || p->mappt.x >= FT(p->map->size.x) || p->mappt.y >= FT(p->map->size.y))
 		return (0);
 	if (p->map->grid[p->mappt.x][p->mappt.y] == 49)
 		p->hit = 1;

@@ -25,7 +25,7 @@
 
 #include <math.h>
 #include <stdio.h>
-#include <bits/stdio_lim.h>
+
 # define PI 3.14159265359
 # define RAD 0.01745329251
 # define FOV 66
@@ -101,9 +101,7 @@ typedef	struct	s_texture
 
 typedef	struct	s_map
 {
-	int	size;
-	int	sizeX;
-	int	sizeY;
+	t_pt	size;
 	char	**grid;
 }		t_map;
 
@@ -152,6 +150,7 @@ typedef	struct	s_params
 	int			bpp;
 	int			endian;
 	int			sl;
+	int			dirparsed;
 	float		sizeconst;
 	double		x_cam;
 	double		x_wall;
