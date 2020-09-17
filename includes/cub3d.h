@@ -195,6 +195,6 @@ char	*ft_strdup(const char *src);
 	void	check_print(t_param *p);
 	void  turn(t_param *p);
 
-	void free_and_exit(t_param *p);
+	int free_and_exit(t_param *p);
 
 #endif

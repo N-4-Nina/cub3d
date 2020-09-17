@@ -67,6 +67,7 @@ int	main(int argc, char **argv)
 	window = mlx_new_window(mlx, param.window -> x, param.window -> y, "cub3d");
 	param.window -> window = window;
 
+	mlx_hook(window, 17, (1<<8), free_and_exit, &param);
 	mlx_hook(window, 2, (1L << 0), keypress, &param);
 	mlx_hook(window, 3, (1L << 1), keyrelease, &param);
 	mlx_loop_hook(mlx, loop_hook, &param);

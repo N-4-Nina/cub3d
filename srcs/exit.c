@@ -13,10 +13,12 @@ void free_grid(t_param *p)
     }
 }
 
-void free_and_exit(t_param *p)
+int free_and_exit(t_param *p)
 {
   free_grid(p);
+  free(p->frame);
   free(p->map);
+  free(p->window -> mlx);
 	free(p->window);
 	free(p->color);
 	free(p->camera);
