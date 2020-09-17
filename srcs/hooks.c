@@ -1,4 +1,5 @@
 #include "../includes/cub3d.h"
+
 int	loop_hook(void *param)
 {
 	t_param	*p;
