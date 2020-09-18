@@ -155,8 +155,10 @@ typedef	struct	s_params
 	double		x_cam;
 	double		x_wall;
 	double		walldist;
+	double		spriteDist;
 	double		speed;
 	double		rotspeed;
+	double		isSprite;
 }		t_param;
 
 int	ft_atoi(const char *str);
@@ -179,6 +181,8 @@ char	*ft_strdup(const char *src);
 	int	parse_map_line(int indice, char *line, t_map *m, t_param *p);
 	int	parse_map(int fd, char *line, t_param *p);
 	int	parse_camera(t_param *p, char dir, int x, int y);
+
+	void flood_fill(t_param *p, t_pt coord);
 
 	void	draw_line(t_pt pt, t_pt pt1, int color, t_param *p);
 	void	add_slice(int x, int top, int bot, t_param *p);

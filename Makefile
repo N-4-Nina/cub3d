@@ -26,6 +26,7 @@ SOURCES =  srcs/move_cam.c \
 	   srcs/draw.c \
 	   srcs/draw_line.c \
 	   srcs/check_and_parse.c \
+	   srcs/flood_fill.c \
 	   srcs/exit.c \
 	   main.c
 

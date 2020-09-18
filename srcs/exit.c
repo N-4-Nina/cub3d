@@ -15,8 +15,16 @@ void free_grid(t_param *p)
 
 int free_and_exit(t_param *p)
 {
+  int i;
+
+  i = 0;
   free_grid(p);
-  free(p->frame);
+  mlx_destroy_image(p->window->mlx, p->frame);
+  while (i < 5)
+  {
+    free(p->tex[i].img);
+    i++;
+  }
   free(p->map);
   free(p->window -> mlx);
 	free(p->window);

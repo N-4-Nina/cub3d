@@ -2,8 +2,6 @@
 
 void  pxl_to_frame(int x, int y, t_param *p)
 {
-
-	
 	if (x < p->window->x && y < p->window->y)
 	{
 		p->texpt.y = abs((((y * 256 - p->window->y * 128 + p->height * 128) * 64)
@@ -32,6 +30,10 @@ void draw_floor(int x, int bot, t_param *p)
 		bot++;
 	}
 }
+void draw_sprite(int x, int bot, t_param *p)
+{
+
+}
 void add_slice(int x, int top, int bot, t_param *p)
 {
 	p->id = p->map->grid[p->mappt.x][p->mappt.y];
@@ -49,5 +51,7 @@ void add_slice(int x, int top, int bot, t_param *p)
 	draw_ceiling(x, top+1, p);
 	while (++top <= bot)
 		pxl_to_frame(x, top, p);
+	if (p->isSprite)
+		draw_sprite(x, bot, p);
 	draw_floor(x, bot, p);
 }

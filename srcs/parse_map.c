@@ -1,38 +1,5 @@
 #include "../includes/cub3d.h"
 
-/*
-int	parse_map_border(int indice, char *line, t_map *m)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	m->grid[indice] = malloc(m->sizeX + 1);
-	while (line[i])
-	{
-		if (line[i] == 49)
-		{
-			m -> grid[indice][j] = 49;
-			j++;
-		}
-		else if (line[i] != 49 && line[i] != ' ')
-		{
-			free(m->grid[indice]);
-			return (0);
-		}
-		i++;
-	}
-	m -> grid[indice][j] = 0;
-	if (indice != 0)
-		m -> sizeY = indice;
-	if (line[i] == 0)
-		return (1);
-	else
-		return (0);
-}
-*/
-
 int	parse_map_line(int indice, char *line, t_map *m, t_param *p)
 {
 	int	i;
@@ -119,6 +86,7 @@ int	parse_map(int fd, char *line, t_param *p)
 		free(line);
 	}
 	p->map->grid = gridswap(p->map->grid, p->map);
+	flood_fill(p, (t_pt){I(p->pos.x- 0.5), I(p->pos.y-0.5)});
 	p->sqx = p->window->x/p->map->size.x;
 	p->sqy = p->window->y/p->map->size.y;
 	return (1);

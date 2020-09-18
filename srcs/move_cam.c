@@ -4,12 +4,12 @@ void	move_cam(t_param *p)
 {
 	if (p->key[FORWARD])
 	{
-		if (p->map->grid[I(p->pos.x + p->dir.x * p->speed)][I(p->pos.y)] == 48)
+		if (p->map->grid[I(p->pos.x + p->dir.x * p->speed)][I(p->pos.y)] == 79)
 		{
 			p->pos.x += p->dir.x * p->speed;
 			p->camera->x += p->dir.x * p->speed;
 		}
-		if (p->map->grid[I(p->pos.x)][I(p->pos.y + p->dir.y * p->speed)] == 48)
+		if (p->map->grid[I(p->pos.x)][I(p->pos.y + p->dir.y * p->speed)] == 79)
 		{
 			p->pos.y += p->dir.y * p->speed;
 			p->camera->y += p->camera->y * p->speed;
@@ -17,12 +17,12 @@ void	move_cam(t_param *p)
 	}
 	if (p->key[BACK])
 	{
-		if (p->map->grid[I(p->pos.x - p->dir.x * p->speed)][I(p->pos.y)] == 48)
+		if (p->map->grid[I(p->pos.x - p->dir.x * p->speed)][I(p->pos.y)] == 79)
 		{
 			p->pos.x -= p->dir.x * p->speed;
 			p->camera->x -= p->dir.x * p->speed;
 		}
-		if (p->map->grid[I(p->pos.x)][I(p->pos.y - p->dir.y * p->speed)] == 48)
+		if (p->map->grid[I(p->pos.x)][I(p->pos.y - p->dir.y * p->speed)] == 79)
 		{
 			p->pos.y -= p->dir.y * p->speed;
 			p->camera->y -= p->camera->y * p->speed;
