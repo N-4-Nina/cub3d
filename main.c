@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/14 17:30:54 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/18 09:38:55 by abouchau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_p(t_param *param)
 	param->window = (t_window *)malloc(sizeof(t_window));
 	param->color = (t_color *)malloc(sizeof(t_color));
 	param->camera = (t_camera *)malloc(sizeof(t_camera));
+	param->dirparsed = 0;
 	param->toggle = 0;
 	param->speed = 0.15;
 	param->rotspeed = 0.07;

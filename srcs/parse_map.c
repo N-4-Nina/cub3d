@@ -45,7 +45,6 @@ int	parse_map_line(int indice, char *line, t_map *m, t_param *p)
 	length = ft_strlen(line);
 	if ((line[0] != 49 && line[0] != ' ') || (line[length - 1] != 49 && (line[length - 1] != ' ')))
 		return (0);
-
 	m->grid[indice] = malloc(m -> size.x);
 	while (line[i])
 	{

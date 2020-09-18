@@ -2,8 +2,8 @@
 #define KEYCODES
 
 #ifdef __linux__
-#define LTURN 65363
-#define RTURN 65361
+#define LTURN 65361
+#define RTURN 65363
 
 #define FORWARD 122
 #define LEFT 0
