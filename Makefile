@@ -24,9 +24,9 @@ SOURCES =  srcs/move_cam.c \
 	   srcs/ray_casting.c \
 	   srcs/hooks.c \
 	   srcs/draw.c \
-	   srcs/draw_line.c \
 	   srcs/check_and_parse.c \
 	   srcs/flood_fill.c \
+	   srcs/screenshot.c \
 	   srcs/exit.c \
 	   main.c
 

@@ -25,12 +25,20 @@ void	dda(t_param *p)
 			p->sidedist.x += p->delta.x;
 			p->mappt.x += p->step.x;
 			p->side = 0;
+			if (p->step.x == 1)
+				p->orient = 2;
+			else if (p->step.x == -1)
+				p->orient = 3;
 		}
 		else
 		{
 			p->sidedist.y += p->delta.y;
 			p->mappt.y += p->step.y;
 			p->side = 1;
+			if (p->step.y == 1)
+				p->orient = 0;
+			else if (p->step.y == -1)
+				p->orient = 1;
 		}
 		if (!(check_hit(p)))
 			break;
@@ -92,10 +100,12 @@ void wall_height(t_param *p)
 	p->bot = p->height / 2 + p->window->y /2;
 	p->bot = (p->bot < 0) ? 0 : p->bot;
 }
+/*
 void sprite_height(t_param *p)
 {
 	p->sHeight =
 }
+*/
 void	ray_casting(t_param *p)
 {
 	p->x = -1;
@@ -105,8 +115,8 @@ void	ray_casting(t_param *p)
 	{
 		ray_init(p, p->x);
 		wall_height(p);
-		if (p->isSprite)
-			sprite_height(t_param *p)
+		//if (p->isSprite)
+		//	sprite_height(t_param *p)
 		add_slice(p->x, p->top-1, p->bot, p);
 	}
 	mlx_put_image_to_window(p->window->mlx, p->window->window, p->frame, 0, 0);

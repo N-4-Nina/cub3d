@@ -139,8 +139,10 @@ typedef	struct	s_params
 	int		id;
 	int		hit;
 	int		side;
+	int		orient;
 	int		x;
 	int		height;
+	int		sHeight;
 	int		top;
 	int		bot;
 	int		toggle;
@@ -198,6 +200,8 @@ char	*ft_strdup(const char *src);
 
 	void	check_print(t_param *p);
 	void  turn(t_param *p);
+
+	void screenshot(char **argv, t_param  *p);
 
 	int free_and_exit(t_param *p);
 

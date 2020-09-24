@@ -12,17 +12,11 @@
 
 #include "./includes/cub3d.h"
 
-void	check_print(t_param *p)
-{
-	printf("position   x: %f, y : %f\n", p->pos.x, p->pos.y);
-	printf("direction : %i\n", p->camera->direction);
-}
-
-void	check_arg(char **argv, t_param *param)
+void	check_arg(int argc, char **argv, t_param *param)
 {
 	int	fd;
 
-	if (argv[1])
+	if (argc == 2 && argv[1])
 	{
 		if (!(fd = open(argv[1], O_RDONLY)))
 			exit(2);
@@ -32,9 +26,11 @@ void	check_arg(char **argv, t_param *param)
 			exit (2);
 		}
 	}
+	else if (argc == 3 && !ft_strncmp(argv[2], "--save", 6))
+		screenshot(argv, param);
 	else
 	{
-		printf("missing arg");
+		write(1, "Invalid (number of) argument(s).", 32);
 		exit(1);
 	}
 }
@@ -63,7 +59,7 @@ int	main(int argc, char **argv)
 	init_p(&param);
 	mlx = mlx_init();
 	param.window -> mlx = mlx;
-	check_arg(argv, &param);
+	check_arg(argc, argv, &param);
 
 	window = mlx_new_window(mlx, param.window -> x, param.window -> y, "cub3d");
 	param.window -> window = window;
