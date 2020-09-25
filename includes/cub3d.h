@@ -30,6 +30,7 @@
 # define RAD 0.01745329251
 # define FOV 66
 # define I (int)
+# define UC	(unsigned char)
 # define FT (float)
 
 /*
@@ -125,7 +126,7 @@ typedef	struct	s_params
 	t_pt		texpt;
 
 	void		*frame;
-	void		*frameptr;
+	int		*frameptr;
 	t_texture	tex[5];
 	t_fpt		pos;
 	t_fpt		dir;
@@ -202,7 +203,7 @@ char	*ft_strdup(const char *src);
 	void  turn(t_param *p);
 
 	void screenshot(char **argv, t_param  *p);
-
+	void single_ray_cast(t_param *p);
 	int free_and_exit(t_param *p);
 
 #endif

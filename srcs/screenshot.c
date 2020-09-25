@@ -6,81 +6,96 @@
 #define BITS_PER_PIXEL_OFFSET 0x001C
 #define HEADER_SIZE 14
 #define INFO_HEADER_SIZE 40
+#define BPP 3
 
-
-void writeHeader(int fd, void *img)
+void shift(unsigned char *headers, int value)
 {
-  int paddedRowSize;
-  unsigned int fileSize;
-  unsigned  int dataOffset;
-  //*****HEADER************//
-  write(fd, "BM", 2);
-  paddedRowSize = (int)(4 * ceil((float)width/4.0f))*img->bpp;
-  fileSize = paddedRowSize*img->height + HEADER_SIZE + INFO_HEADER_SIZE;
-  write(fd, ft_itoa(fileSize), floor(log10(fileSize)) + 1);
-  write(fd, "0x0000", 6);
-  dataOffset = HEADER_SIZE+INFO_HEADER_SIZE;
-  write(fd, ft_itoa(dataOffset), floor(log10(dataOffset)) + 1);
+  headers[0] = UC (value);
+  headers[1] = UC (value >> 8);
+  headers[2] = UC (value >> 16);
+  headers[3] = UC (value >> 24);
 }
 
-void writeInfoHeader(int fd, void *img)
+void writeHeader(int fd, t_param *p, int size)
 {
-  //*******INFO*HEADER******//
-  write(fd, ft_itoa(INFO_HEADER_SIZE), 40);
-  write(fd, ft_itoa(img->width), floor(log10(abs(img->width))) + 1);
-  write(fd, ft_itoa(img->height), floor(log10(abs(img->height))) + 1);
-  write(fd, "1", 1);
-  write(fd, ft_itoa(img->bpp * 8), floor(log10(abs(img->bpp * 8))) + 1);
+  unsigned  char  headers[54];
+  int             i;
+  i = 0;
+  while(i < 54)
+    headers[i++] = UC 0;
+  headers[0] = UC'B';
+  headers[1] = UC'M';
+  shift(headers + 2, size);
+  headers[10] = UC 54;
+  headers[14] = UC 40;
+  shift(headers + 18, p->window->x);
+  shift(headers + 22, p->window->y);
+  headers[27] = UC 1;
+  headers[28] = UC 24;
+
+  write(fd, headers, 54);
 }
 
-void writeCompression(int fd, void *img)
+int writeColors(int fd, t_param *p)
 {
-  //write compression
-  int size;
-  size = img->width*img->height*img->bpp
-  write(fd, "0", 1);
-  write(fd, ft_itoa(size), floor(log10(abs(size))) + 1);
-  write(fd, "11811", 6);
-  write(fd, "11811", 6);
-  write(fd, "0", 1);
-  write(fd, "0", 1);
+  unsigned char	rgb[3] = {
+		0, 0, 0 };
+	int						i;
+	int						j;
+  t_pt          dim;
+
+  i = 0;
+  dim.x = p->window->x;
+  dim.y = p->window->y-1;
+	while (i < p->window->y)
+	{
+		j = 0;
+		while (j < p->window->x)
+		{
+			rgb[0] = ((p->frameptr[(dim.y - i) * dim.x + j]) >> 16);
+			rgb[1] = ((p->frameptr[(dim.y - i) * dim.x + j]) >> 8);
+			rgb[2] = (p->frameptr[(dim.y - i) * dim.x + j]);
+			if ((write(fd, rgb + 2, 1)) < 0)
+				return (0);
+			if ((write(fd, rgb + 1, 1)) < 0)
+				return (0);
+			if ((write(fd, rgb, 1)) < 0)
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+
 }
 
-void writeImage(void *img)
+void writeImage(t_param *p)
 {
-        int i;
-        int unpaddedRowSize;
         int outputFd;
-        int bytes;
+        int fileSize;
+        //int bytes;
 
-        outputFd = open("screenshot.bmp", O_RDWR, O_CREAT);
+        fileSize = 54 + (p->window->x * p->window->y);
+        if(!(outputFd = open("screenshot.bmp", O_WRONLY | O_CREAT, 0777)))
+          printf("couldn't create bmp\n");
 
-        writeHeader(outputFd, img);
-        writeInfoHeader(outputFd, img);
-        writeCompression(outputFd, img);
-        i = 0;
-        unpaddedRowSize = img->width*img->bpp;
-        bytes = img->width*img->height*img->bpp;
-        while (i < bytes)
-        {
-                //int pixelOffset = ((height - i) - 1)*unpaddedRowSize;
-                write(outputFd, img->data[i], 4);
-                i+= 4;
-        }
+        writeHeader(outputFd, p, fileSize);
+        writeColors(outputFd, p);
         close(outputFd);
 }
 
-void screenshot(char **argv, t_param  *param)
+void screenshot(char **argv, t_param  *p)
 {
   int fd;
 
   if (!(fd = open(argv[1], O_RDONLY)))
     exit(2);
-  if (!(check_and_parse(argv, fd, param)))
+  if (!(check_and_parse(argv, fd, p)))
   {
     printf("invalid .cub file");
     exit (2);
   }
-  ray_casting(p);
-  writeImage(p->frame);
+  single_ray_cast(p);
+  writeImage(p);
+  free_and_exit(p);
 }

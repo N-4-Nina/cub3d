@@ -110,7 +110,7 @@ void	ray_casting(t_param *p)
 {
 	p->x = -1;
 	p->frame = mlx_new_image(p->window->mlx, p->window->x, p->window->y);
-	p->frameptr = mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
+	p->frameptr = (int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
 	while (++p->x < p->window->x)
 	{
 		ray_init(p, p->x);
@@ -122,4 +122,19 @@ void	ray_casting(t_param *p)
 	mlx_put_image_to_window(p->window->mlx, p->window->window, p->frame, 0, 0);
 	mlx_do_sync(p->window->mlx);
 	//mlx_destroy_image(p->window->mlx, p->frame);
+}
+
+void single_ray_cast(t_param *p)
+{
+		p->x = -1;
+		p->frame = mlx_new_image(p->window->mlx, p->window->x, p->window->y);
+		p->frameptr = (int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
+		while (++p->x < p->window->x)
+		{
+			ray_init(p, p->x);
+			wall_height(p);
+			//if (p->isSprite)
+			//	sprite_height(t_param *p)
+			add_slice(p->x, p->top-1, p->bot, p);
+		}
 }

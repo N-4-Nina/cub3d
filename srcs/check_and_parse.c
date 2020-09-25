@@ -27,19 +27,18 @@ int	int_size(int nb)
 
 int	parse_res(char *line, t_param *p)
 {
-	/*
 	int x;
 	int y;
-	*/
-	p -> window -> x = ft_atoi(line);
-	p -> window -> y = ft_atoi(line + int_size(p-> window -> x) + 1);
-	/*
+
+	p -> window -> x = abs(ft_atoi(line));
+	p -> window -> y = abs(ft_atoi(line + int_size(p-> window -> x) + 1));
+
 	mlx_get_screen_size(p->window->mlx, &x, &y);
 	if (p -> window -> x > x)
 		p -> window -> x = x;
 	if (p-> window -> y > y)
 		p -> window -> y = y;
-		*/
+
 	if (!(p -> window -> x) || ! (p -> window -> y))
 		return (0);
 	return (1);

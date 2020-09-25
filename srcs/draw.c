@@ -6,7 +6,7 @@ void  pxl_to_frame(int x, int y, t_param *p)
 	{
 		p->texpt.y = abs((((y * 256 - p->window->y * 128 + p->height * 128) * 64)
 					/ p->height) / 256);
-		ft_memcpy(p->frameptr + 4 * p->window->x * y + x * 4,
+		ft_memcpy((void*)p->frameptr + 4 * p->window->x * y + x * 4,
 				&p->tex[p->orient].ptr[p->texpt.y % 64 * p->tex[p->orient].size_line +
 				p->texpt.x % 64 * p->tex[0].bpp / 8], sizeof(int));
 	}
@@ -18,7 +18,7 @@ void draw_ceiling(int x, int top, t_param *p)
 	y = 0;
 	while (y < top)
 	{
-		ft_memcpy(p->frameptr + 4 * p->window->x * y + x * 4, &p->color->ceiling, sizeof(int));
+		ft_memcpy((void*)p->frameptr + 4 * p->window->x * y + x * 4, &p->color->ceiling, sizeof(int));
 		y++;
 	}
 }
@@ -26,7 +26,7 @@ void draw_floor(int x, int bot, t_param *p)
 {
 	while (bot < p->window->y)
 	{
-		ft_memcpy(p->frameptr + 4 * p->window->x * bot + x * 4, &p->color->floor, sizeof(int));
+		ft_memcpy((void*)p->frameptr + 4 * p->window->x * bot + x * 4, &p->color->floor, sizeof(int));
 		bot++;
 	}
 }

@@ -26,7 +26,7 @@ void	check_arg(int argc, char **argv, t_param *param)
 			exit (2);
 		}
 	}
-	else if (argc == 3 && !ft_strncmp(argv[2], "--save", 6))
+	else if (argc == 3 && !(ft_strncmp(argv[2], "--save", 6)))
 		screenshot(argv, param);
 	else
 	{
@@ -55,7 +55,6 @@ int	main(int argc, char **argv)
 	void	*window;
 	t_param		param;
 
-	argc++;
 	init_p(&param);
 	mlx = mlx_init();
 	param.window -> mlx = mlx;
