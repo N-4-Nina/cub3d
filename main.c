@@ -40,9 +40,9 @@ void	init_p(t_param *param)
 	param->map = (t_map *)malloc(sizeof(t_map));
 	param->window = (t_window *)malloc(sizeof(t_window));
 	param->color = (t_color *)malloc(sizeof(t_color));
-	param->camera = (t_camera *)malloc(sizeof(t_camera));
+	param->sprites = (t_sprites **)malloc(sizeof(t_sprites*));
 	param->dirparsed = 0;
-	param->toggle = 0;
+	param->spritesnb = 0;
 	param->speed = 0.15;
 	param->rotspeed = 0.07;
 	printf("init_p finished\n");

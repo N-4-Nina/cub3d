@@ -6,7 +6,7 @@
 #    By: abouchau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/05 16:42:52 by abouchau          #+#    #+#              #
-#    Updated: 2020/09/15 10:18:13 by abouchau         ###   ########.fr        #
+#    Updated: 2020/09/27 11:42:57 by chpl             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ LIBS	= -L libft/ -lft ${MLX_LNK} -lm
 GNLBUFF = -D BUFFER_SIZE=100
 SOURCES =  srcs/move_cam.c \
 	   srcs/parse_map.c \
+	   srcs/parse_camera.c \
 	   srcs/ray_casting.c \
+	   srcs/sprites.c \
 	   srcs/hooks.c \
 	   srcs/draw.c \
 	   srcs/check_and_parse.c \

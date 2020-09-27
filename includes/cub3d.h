@@ -58,16 +58,6 @@ typedef	struct	s_ray
 
 }		t_ray;
 
-typedef	struct	s_linedraw
-{
-	t_pt	ori;
-	t_pt	delta;
-	t_pt	delta1;
-	t_pt	p;
-	t_pt	e;
-	int	color;
-}		t_linedraw;
-
 typedef	struct	s_window
 {
 	void	*mlx;
@@ -75,13 +65,6 @@ typedef	struct	s_window
 	int	x;
 	int	y;
 }		t_window;
-
-typedef	struct	s_camera
-{
-	int	x;
-	int	y;
-	int	direction;
-}		t_camera;
 
 typedef	struct	s_color
 {
@@ -106,18 +89,21 @@ typedef	struct	s_map
 	char	**grid;
 }		t_map;
 
-typedef	struct	s_grid
+typedef struct s_sprites
 {
-	int	sizeX;
-	int	sizeY;
-}		t_grid;
+	int	side;
+	t_pt coord;
+	t_fpt		raypos;
+	double	dist;
+
+}	t_sprites;
 
 typedef	struct	s_params
 {
 	t_window	*window;
-	t_camera	*camera;
 	t_color		*color;
 	t_map		*map;
+	t_sprites	**sprites;
 
 	t_pt		step;
 	t_pt		mappt;
@@ -142,11 +128,16 @@ typedef	struct	s_params
 	int		side;
 	int		orient;
 	int		x;
+
 	int		height;
-	int		sHeight;
 	int		top;
 	int		bot;
-	int		toggle;
+	int		sHeight;
+	int		sTop;
+	int		sBot;
+
+	int		spritesnb;
+
 	int		sqx;
 	int		sqy;
 	int		scrdist;
@@ -157,11 +148,11 @@ typedef	struct	s_params
 	float		sizeconst;
 	double		x_cam;
 	double		x_wall;
+	double		x_sprite;
 	double		walldist;
 	double		spriteDist;
 	double		speed;
 	double		rotspeed;
-	double		isSprite;
 }		t_param;
 
 int	ft_atoi(const char *str);
@@ -180,7 +171,6 @@ char	*ft_strdup(const char *src);
 	 */
 	void	print_success(t_param *param);
 	int	check_and_parse(char **argv, int fd, t_param *param);
-	int	parse_map_border(int indice, char *line, t_map *m);
 	int	parse_map_line(int indice, char *line, t_map *m, t_param *p);
 	int	parse_map(int fd, char *line, t_param *p);
 	int	parse_camera(t_param *p, char dir, int x, int y);
@@ -191,6 +181,12 @@ char	*ft_strdup(const char *src);
 	void	add_slice(int x, int top, int bot, t_param *p);
 
 	void	ray_casting(t_param *p);
+
+	void	dda_init(t_param *p);
+	void	dda(t_param *p);
+
+	void add_sprite(t_param *p, t_pt coord, int side);
+	void draw_sprites(t_param *p);
 
 	void	turn_cam(int i, t_param *p);
 	void	move_cam(t_param *p);
@@ -205,5 +201,6 @@ char	*ft_strdup(const char *src);
 	void screenshot(char **argv, t_param  *p);
 	void single_ray_cast(t_param *p);
 	int free_and_exit(t_param *p);
+	void free_tmp_grid(char **grid, t_map *p);
 
 #endif
