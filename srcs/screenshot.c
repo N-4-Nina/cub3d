@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:36:32 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:54:41 by chpl             ###   ########.fr       */
+/*   Updated: 2020/09/28 10:02:27 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	write_image(t_param *p)
 	if (!(outputfd = open("screenshot.bmp", O_WRONLY | O_CREAT, 0777)))
 		printf("couldn't create bmp\n");
 	dim = (t_pt){p->window->x, p->window->y - 1};
-	write_headers(outputfd, p, filesize, dim);
-	write_colors(outputfd, p);
+	write_headers(outputfd, p, filesize);
+	write_colors(outputfd, p, dim);
 	close(outputfd);
 }
 

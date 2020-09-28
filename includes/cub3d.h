@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/17 12:49:18 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/09/28 10:05:01 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char	*ft_strdup(const char *src);
 	void	add_slice(int x, int top, int bot, t_param *p);
 
 	void	ray_casting(t_param *p);
-
+	int	check_hit(t_param *p);
 	void	dda_init(t_param *p);
 	void	dda(t_param *p);
 

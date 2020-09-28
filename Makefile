@@ -6,7 +6,7 @@
 #    By: abouchau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/05 16:42:52 by abouchau          #+#    #+#              #
-#    Updated: 2020/09/27 11:42:57 by chpl             ###   ########.fr        #
+#    Updated: 2020/09/28 10:03:44 by chpl             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SOURCES =  srcs/move_cam.c \
 	   srcs/ray_casting.c \
 	   srcs/sprites.c \
 	   srcs/hooks.c \
+	   srcs/dda.c \
 	   srcs/draw.c \
 	   srcs/check_and_parse.c \
 	   srcs/flood_fill.c \

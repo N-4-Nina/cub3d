@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:06:33 by chpl             ###   ########.fr       */
+/*   Updated: 2020/09/28 10:16:42 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		parse_map(int fd, char *line, t_param *p)
 
 	i = 0;
 	y = 0;
-	if (!p->map->grid = malloc(sizeof(char*) * p->map->size.y))
+	if (!(p->map->grid = malloc(sizeof(char*) * p->map->size.y)))
 		return (0);
 	while (get_next_line(fd, &line))
 	{
@@ -103,7 +103,8 @@ int		parse_map(int fd, char *line, t_param *p)
 		free(line);
 	}
 	free(line);
-	if (!(p->map->grid = gridswap(p->map->grid, p->map)))
+	if (!(p->map->grid = gridswap(p->map->grid, p->map))
+			|| !(p->dirparsed))
 		return (0);
 	flood_fill(p, (t_pt){I(p->pos.x - 0.5), I(p->pos.y - 0.5)});
 	p->sqx = p->window->x / p->map->size.x;
