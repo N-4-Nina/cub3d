@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:28:08 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:34:48 by chpl             ###   ########.fr       */
+/*   Updated: 2020/09/30 10:29:59 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int		check_hit(t_param *p)
 			|| p->mappt.x >= FT(p->map->size.x)
 			|| p->mappt.y >= FT(p->map->size.y))
 		return (0);
-	if (p->map->grid[p->mappt.x][p->mappt.y] == 70)
-		add_sprite(p, p->mappt, p->side);
 	if (p->map->grid[p->mappt.x][p->mappt.y] == 49)
 		p->hit = 1;
 	return (1);
@@ -42,6 +40,7 @@ void	ray_init(t_param *p, int x)
 	else
 		p->walldist = (p->mappt.y - p->raypos.y +
 				(1 - p->step.y) / 2) / p->raydir.y;
+	p->wallsdist[p->x] = p->walldist;
 }
 
 void	wall_height(t_param *p)
@@ -58,13 +57,14 @@ void	ray_casting(t_param *p)
 	p->x = -1;
 	p->frame = mlx_new_image(p->window->mlx, p->window->x, p->window->y);
 	p->frameptr =
-		(int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
+		(unsigned int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
 	while (++p->x < p->window->x)
 	{
 		ray_init(p, p->x);
 		wall_height(p);
 		add_slice(p->x, p->top - 1, p->bot, p);
 	}
+	sprites(p);
 	mlx_put_image_to_window(p->window->mlx, p->window->window, p->frame, 0, 0);
 	mlx_do_sync(p->window->mlx);
 	mlx_destroy_image(p->window->mlx, p->frame);
@@ -75,12 +75,13 @@ void	single_ray_cast(t_param *p)
 	p->x = -1;
 	p->frame = mlx_new_image(p->window->mlx, p->window->x, p->window->y);
 	p->frameptr =
-		(int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
+		(unsigned int*)mlx_get_data_addr(p->frame, &p->bpp, &p->sl, &p->endian);
 	while (++p->x < p->window->x)
 	{
 		ray_init(p, p->x);
 		wall_height(p);
 		add_slice(p->x, p->top - 1, p->bot, p);
 	}
+	sprites(p);
 	mlx_destroy_image(p->window->mlx, p->frame);
 }

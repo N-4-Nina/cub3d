@@ -1,44 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/27 12:19:22 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:20:08 by chpl             ###   ########.fr       */
+/*   Created: 2020/10/01 12:05:08 by chpl              #+#    #+#             */
+/*   Updated: 2020/10/01 12:05:38 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	loop_hook(void *param)
+void	add_sprite(t_param *p, t_pt coord)
 {
-	t_param	*p;
+	int i;
 
-	p = (t_param*)param;
-	ray_casting(p);
-	move_cam(p);
-	turn(p);
-	return (1);
+	i = p->spritesnb;
+	if (!(p->sprites[i] = (t_sprites *)malloc(sizeof(t_sprites))))
+		return ;
+	p->sprites[i]->coord = (t_fpt){coord.x + 0.5, coord.y + 0.5};
+	p->sprites[i]->raypos = p->raypos;
+	p->spritesnb++;
 }
 
-int	keyrelease(int keycode, void *param)
+int		int_size(int nb)
 {
-	t_param	*p;
+	int i;
 
-	p = (t_param*)param;
-	p->key[keycode] = 0;
-	return (keycode);
-}
-
-int	keypress(int keycode, void *param)
-{
-	t_param	*p;
-
-	p = (t_param*)param;
-	p->key[keycode] = 1;
-	if (keycode == ESCAPE)
-		free_and_exit(p);
-	return (keycode);
+	i = 1;
+	while (nb / 10 != 0)
+	{
+		nb = nb / 10;
+		i++;
+	}
+	return (i);
 }

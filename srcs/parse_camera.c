@@ -16,7 +16,7 @@ void	set_north(t_param *p)
 {
 	p->dir.x = 0;
 	p->dir.y = -1;
-	p->plane.x = 0.66;
+	p->plane.x = -0.66;
 	p->plane.y = 0;
 }
 
@@ -24,7 +24,7 @@ void	set_south(t_param *p)
 {
 	p->dir.x = 0;
 	p->dir.y = 1;
-	p->plane.x = -0.66;
+	p->plane.x = 0.66;
 	p->plane.y = 0;
 }
 

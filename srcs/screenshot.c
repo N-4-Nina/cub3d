@@ -77,7 +77,7 @@ void	write_image(t_param *p)
 
 	filesize = 54 + (p->window->x * p->window->y);
 	if (!(outputfd = open("screenshot.bmp", O_WRONLY | O_CREAT, 0777)))
-		printf("couldn't create bmp\n");
+		write(1, "couldn't create bmp\n", 20);
 	dim = (t_pt){p->window->x, p->window->y - 1};
 	write_headers(outputfd, p, filesize);
 	write_colors(outputfd, p, dim);
@@ -92,7 +92,7 @@ void	screenshot(char **argv, t_param *p)
 		exit(2);
 	if (!(check_and_parse(argv, fd, p)))
 	{
-		printf("invalid .cub file");
+		write(1, "invalid .cub file", 17);
 		exit(2);
 	}
 	single_ray_cast(p);

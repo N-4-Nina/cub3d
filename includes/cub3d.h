@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/28 10:05:01 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 11:50:29 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,20 @@ typedef	struct	s_map
 
 typedef struct s_sprites
 {
-	int	side;
-	t_pt coord;
+	t_fpt		coord;
+	t_fpt		delta;
 	t_fpt		raypos;
+	t_fpt		texcoord;
+	t_fpt		trans;
+
+	t_pt		dim;
+	t_pt		begindraw;
+	t_pt		enddraw;
+	int			xscreen;
+
+	int d;
 	double	dist;
+	double	inv;
 
 }	t_sprites;
 
@@ -110,9 +120,10 @@ typedef	struct	s_params
 	t_pt		winsize;
 	t_pt		scrsize;
 	t_pt		texpt;
+	t_pt		sptexpt;
 
 	void		*frame;
-	int		*frameptr;
+	unsigned int		*frameptr;
 	t_texture	tex[5];
 	t_fpt		pos;
 	t_fpt		dir;
@@ -132,9 +143,9 @@ typedef	struct	s_params
 	int		height;
 	int		top;
 	int		bot;
-	int		sHeight;
-	int		sTop;
-	int		sBot;
+	int		sheight;
+	int		stop;
+	int		sbot;
 
 	int		spritesnb;
 
@@ -146,11 +157,13 @@ typedef	struct	s_params
 	int			sl;
 	int			dirparsed;
 	float		sizeconst;
+
+	double		*wallsdist;
+	double		angle_dir;
 	double		x_cam;
 	double		x_wall;
 	double		x_sprite;
 	double		walldist;
-	double		spriteDist;
 	double		speed;
 	double		rotspeed;
 }		t_param;
@@ -169,15 +182,16 @@ char	*ft_strdup(const char *src);
 	/*
 	 * CUB3D
 	 */
-	void	print_success(t_param *param);
+	int	int_size(int nb);
 	int	check_and_parse(char **argv, int fd, t_param *param);
 	int	parse_map_line(int indice, char *line, t_map *m, t_param *p);
 	int	parse_map(int fd, char *line, t_param *p);
 	int	parse_camera(t_param *p, char dir, int x, int y);
+	t_pt	get_map_dimensions(char *file, char **line, int fd, int offset);
+
 
 	void flood_fill(t_param *p, t_pt coord);
 
-	void	draw_line(t_pt pt, t_pt pt1, int color, t_param *p);
 	void	add_slice(int x, int top, int bot, t_param *p);
 
 	void	ray_casting(t_param *p);
@@ -185,8 +199,9 @@ char	*ft_strdup(const char *src);
 	void	dda_init(t_param *p);
 	void	dda(t_param *p);
 
-	void add_sprite(t_param *p, t_pt coord, int side);
-	void draw_sprites(t_param *p);
+	void add_sprite(t_param *p, t_pt coord);
+	void draw_sprite(t_param *p, t_sprites *sprite);
+	void	sprites(t_param *p);
 
 	void	turn_cam(int i, t_param *p);
 	void	move_cam(t_param *p);
@@ -195,7 +210,6 @@ char	*ft_strdup(const char *src);
 	int	keypress(int keycode, void *param);
 	int	keyrelease(int keycode, void *param);
 
-	void	check_print(t_param *p);
 	void  turn(t_param *p);
 
 	void screenshot(char **argv, t_param  *p);

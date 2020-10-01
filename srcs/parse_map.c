@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/28 10:16:42 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 10:37:01 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		go_through_line(int indice, char *line, t_map *m, t_param *p)
 	j = 0;
 	while (line[i])
 	{
+		if (line[i] == 50)
+			p->spritesnb++;
 		if (line[i] == 'N' || line[i] == 'S'
 				|| line[i] == 'W' || line[i] == 'E')
 		{
@@ -58,13 +60,15 @@ int		parse_map_line(int indice, char *line, t_map *m, t_param *p)
 	return (1);
 }
 
-char	**gridswap(char **grid, t_map *m)
+char	**gridswap(t_param *p, char **grid, t_map *m)
 {
 	char	**grid2;
 	int		x;
 	int		y;
 
 	x = 0;
+	p->sprites = malloc(sizeof(t_sprites*) * p->spritesnb);
+	p->spritesnb = 0;
 	if (!(grid2 = malloc(sizeof(char*) * m->size.x)))
 		return (0);
 	while (x < m->size.x)
@@ -74,6 +78,8 @@ char	**gridswap(char **grid, t_map *m)
 		while (y < m->size.y)
 		{
 			grid2[x][y] = grid[y][x];
+			if (grid2[x][y] == 50)
+				add_sprite(p, (t_pt){x, y});
 			y++;
 		}
 		grid2[x][y] = 0;
@@ -81,6 +87,35 @@ char	**gridswap(char **grid, t_map *m)
 	}
 	free_tmp_grid(grid, m);
 	return (grid2);
+}
+
+t_pt	get_map_dimensions(char *file, char **line, int fd, int offset)
+{
+	t_pt	dim;
+	int		j;
+
+	dim = (t_pt){0, 0};
+	j = 0;
+	while (*line[0] == '1' || *line[0] == ' ')
+	{
+		if (dim.x < I(ft_strlen(*line)))
+			dim.x = ft_strlen(*line);
+		free(*line);
+		get_next_line(fd, line);
+		dim.y++;
+	}
+	free(*line);
+	close(fd);
+	fd = open(file, O_RDONLY);
+	get_next_line(fd, line);
+	while (j < offset - 1)
+	{
+		free(*line);
+		get_next_line(fd, line);
+		j++;
+	}
+	free(*line);
+	return (dim);
 }
 
 int		parse_map(int fd, char *line, t_param *p)
@@ -103,7 +138,7 @@ int		parse_map(int fd, char *line, t_param *p)
 		free(line);
 	}
 	free(line);
-	if (!(p->map->grid = gridswap(p->map->grid, p->map))
+	if (!(p->map->grid = gridswap(p, p->map->grid, p->map))
 			|| !(p->dirparsed))
 		return (0);
 	flood_fill(p, (t_pt){I(p->pos.x - 0.5), I(p->pos.y - 0.5)});

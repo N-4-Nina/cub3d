@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:08:15 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:12:12 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 10:34:02 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pxl_to_frame(int x, int y, t_param *p)
 	{
 		p->texpt.y = abs((((y * 256 - p->window->y * 128 + p->height * 128)
 						* 64) / p->height) / 256);
-		ft_memcpy((void*)p->frameptr + 4 * p->window->x * y + x * 4,
+		ft_memcpy((void *)p->frameptr + 4 * p->window->x * y + x * 4,
 				&p->tex[p->orient].ptr[p->texpt.y % 64
 				* p->tex[p->orient].size_line +
 				p->texpt.x % 64 * p->tex[p->orient].bpp / 8], sizeof(int));
@@ -64,7 +64,5 @@ void	add_slice(int x, int top, int bot, t_param *p)
 	draw_ceiling(x, top + 1, p);
 	while (++top <= bot)
 		pxl_to_frame(x, top, p);
-	if (p->spritesnb > 0)
-		draw_sprites(p);
 	draw_floor(x, bot, p);
 }

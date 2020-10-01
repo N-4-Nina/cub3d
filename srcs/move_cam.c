@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:20:43 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/28 10:23:49 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 12:09:44 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,37 @@ void	move_cam(t_param *p)
 			p->pos.y -= p->dir.y * p->speed;
 	}
 }
+void	move_sideways(t_param *p)
+{
+	if (p->key[LEFT])
+	{
+	}
+	if (p->key[RIGHT])
+	{
+	}
+}
 
 void	turn(t_param *p)
 {
-	double old_dirx;
-	double old_planex;
+	double	old_dirx;
+	double	old_planex;
+	double	dir;
 
 	old_dirx = p->dir.x;
 	old_planex = p->plane.x;
+	dir = 0.;
+	if ((p->key[LTURN] && p->key[RTURN]))
+		return ;
 	if (p->key[LTURN])
-	{
-		old_dirx = p->dir.x;
-		p->dir.x = p->dir.x * cos(-p->rotspeed) - p->dir.y * sin(-p->rotspeed);
-		p->dir.y = old_dirx * sin(-p->rotspeed) + p->dir.y * cos(-p->rotspeed);
-		old_planex = p->plane.x;
-		p->plane.x = p->plane.x * cos(-p->rotspeed)
-			- p->plane.y * sin(-p->rotspeed);
-		p->plane.y = old_planex * sin(-p->rotspeed)
-			+ p->plane.y * cos(-p->rotspeed);
-	}
+		dir = 1.;
 	if (p->key[RTURN])
-	{
-		p->dir.x = p->dir.x * cos(p->rotspeed) - p->dir.y * sin(p->rotspeed);
-		p->dir.y = old_dirx * sin(p->rotspeed) + p->dir.y * cos(p->rotspeed);
-		p->plane.x = p->plane.x * cos(p->rotspeed)
-			- p->plane.y * sin(p->rotspeed);
-		p->plane.y = old_planex * sin(p->rotspeed)
-			+ p->plane.y * cos(p->rotspeed);
-	}
+		dir = -1.;
+	p->dir.x = p->dir.x * cos(dir * 0.1)
+				- p->dir.y * sin(dir * 0.1);
+	p->dir.y = old_dirx * sin(dir * 0.1)
+				+ p->dir.y * cos(dir * 0.1);
+	p->plane.x = p->plane.x * cos(dir * 0.1)
+				- p->plane.y * sin(dir * 0.1);
+	p->plane.y = old_planex * sin(dir * 0.1)
+				+ p->plane.y * cos(dir * 0.1);
 }
