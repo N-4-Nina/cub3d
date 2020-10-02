@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:19:22 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/27 12:20:08 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 18:58:05 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	loop_hook(void *param)
 	p = (t_param*)param;
 	ray_casting(p);
 	move_cam(p);
+	move_sideways(p);
 	turn(p);
 	return (1);
 }

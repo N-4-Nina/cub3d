@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/01 12:01:36 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/01 19:10:33 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		main(int argc, char **argv)
 	check_arg(argc, argv, &param);
 	window = mlx_new_window(mlx, param.window->x, param.window->y, "cub3d");
 	param.window->window = window;
-	mlx_hook(window, 17, (1 << 8), free_and_exit, &param);
+	mlx_hook(window, 33, (1 << 8), free_and_exit, &param);
 	mlx_hook(window, 2, (1L << 0), keypress, &param);
 	mlx_hook(window, 3, (1L << 1), keyrelease, &param);
 	mlx_loop_hook(mlx, loop_hook, &param);
