@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:11:00 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/01 12:03:26 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/02 12:34:24 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,6 @@ int	parse_res(char *line, t_param *p)
 		return (0);
 	while (i < p->window->x)
 		p->wallsdist[i++] = 0;
-	return (1);
-}
-
-int	parse_color(char *line, t_color *color)
-{
-	int	r;
-	int	g;
-	int	b;
-	int	convert;
-
-	r = ft_atoi(&line[2]);
-	g = ft_atoi(&line[2] + int_size(r) + 1);
-	b = ft_atoi(&line[2] + int_size(r) + int_size(g) + 2);
-	convert = r;
-	convert = (convert << 8) + g;
-	convert = (convert << 8) + b;
-	if (line[0] == 'F')
-		color->floor = convert;
-	else if (line[0] == 'C')
-		color->ceiling = convert;
 	return (1);
 }
 
@@ -113,6 +93,11 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 		free(line);
 		get_next_line(fd, &line);
 		offset++;
+	}
+	if (offset != 8)
+	{
+		free(line);
+		return (0);
 	}
 	param->scrdist = round(param->window->x / 2 / tan((FOV / 2) * RAD));
 	param->sizeconst = (float)64 / param->scrdist;

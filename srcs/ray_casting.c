@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:28:08 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/30 10:29:59 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:20:18 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,4 @@ void	single_ray_cast(t_param *p)
 		add_slice(p->x, p->top - 1, p->bot, p);
 	}
 	sprites(p);
-	mlx_destroy_image(p->window->mlx, p->frame);
 }

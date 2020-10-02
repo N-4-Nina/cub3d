@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:36:32 by chpl              #+#    #+#             */
-/*   Updated: 2020/09/28 10:02:27 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:19:20 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,8 @@ void	write_image(t_param *p)
 	close(outputfd);
 }
 
-void	screenshot(char **argv, t_param *p)
+void	screenshot(char **argv, t_param *p, int fd)
 {
-	int fd;
-
 	if (!(fd = open(argv[1], O_RDONLY)))
 		exit(2);
 	if (!(check_and_parse(argv, fd, p)))

@@ -6,11 +6,16 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 12:05:08 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/01 12:05:38 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/02 13:12:17 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int		is_white_space(char c)
+{
+	return (c == 32 || (c > 8 && c < 14 && c != '\n'));
+}
 
 void	add_sprite(t_param *p, t_pt coord)
 {

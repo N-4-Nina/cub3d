@@ -1,11 +1,11 @@
-R 21800 21000
 NO ./ressources/tex_wall_N.xpm
-SO ./ressources/tex_wall_S.xpm
 WE ./ressources/tex_wall_W.xpm
-EA ./ressources/tex_wall_E.xpm
 S ./ressources/pikachu.xpm
-F 255,72,16
-C 200,-2255555555555555555555555555555555552,355
+SO ./ressources/tex_wall_S.xpm
+C 100,  	150,  		  24		
+F 045, 		238,	187    			 
+R    		420 		120
+EA ./ressources/tex_wall_E.xpm
 11111111111111111111111111
 10000000000000000000000001
 10000000000000000000000001

@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/01 19:49:42 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:19:59 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,10 @@ int		get_next_line(int fd, char **line);
 ** CUB3D
 */
 int		int_size(int nb);
+int		is_white_space(char c);
+int		convert_color(int rgb[3]);
 int		check_and_parse(char **argv, int fd, t_param *param);
+int		parse_color(char *line, t_color *color);
 int		parse_map_line(int indice, char *line, t_map *m, t_param *p);
 int		parse_map(int fd, char *line, t_param *p);
 int		parse_camera(t_param *p, char dir, int x, int y);
@@ -196,7 +199,7 @@ int		keypress(int keycode, void *param);
 int		keyrelease(int keycode, void *param);
 
 void	turn(t_param *p);
-void	screenshot(char **argv, t_param *p);
+void	screenshot(char **argv, t_param *p, int fd);
 void	single_ray_cast(t_param *p);
 int		free_and_exit(t_param *p);
 void	free_tmp_grid(char **grid, t_map *p);
