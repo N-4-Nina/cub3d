@@ -46,13 +46,13 @@ void	add_slice_sprite(t_param *p, t_sprites *sprite, int x)
 	{
 		sprite->d = y * 256 - p->window->y * 128 + sprite->dim.y * 128;
 		sprite->texcoord.y = ((sprite->d * 64) / sprite->dim.y) / 256;
-		if (*(int *)&p->tex[4].ptr[I(sprite->texcoord.y) % 64
-				* p->tex[4].size_line + I(sprite->texcoord.x) % 64
+		if (*(int *)&p->tex[4].ptr[(int)(sprite->texcoord.y) % 64
+				* p->tex[4].size_line + (int)(sprite->texcoord.x) % 64
 				* p->tex[4].bpp / 8] != 0x000000)
 		{
 			ft_memcpy((void*)p->frameptr + 4 * p->window->x * y + x * 4,
-					&p->tex[4].ptr[I(sprite->texcoord.y) % 64
-					* p->tex[4].size_line + I(sprite->texcoord.x) % 64
+					&p->tex[4].ptr[(int)(sprite->texcoord.y) % 64
+					* p->tex[4].size_line + (int)(sprite->texcoord.x) % 64
 					* p->tex[4].bpp / 8], sizeof(int));
 		}
 		y++;

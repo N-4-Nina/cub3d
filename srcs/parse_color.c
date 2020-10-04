@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:21:41 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/02 15:22:20 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 10:27:41 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		parse_color(char *line, t_color *color)
 	while (is_white_space(line[offset]) || line[offset] == '0')
 		offset++;
 	if ((value = through_color_line(line, offset)) == -1)
-		return (0);
+		return (-line[0]);
 	if (line[0] == 'F')
 		color->floor = value;
 	else if (line[0] == 'C')

@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/01 10:37:01 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 22:41:12 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		go_through_line(int indice, char *line, t_map *m, t_param *p)
 		{
 			m->grid[indice][j] = 48;
 			if (!(parse_camera(p, line[i], j, indice)))
-				return (0);
+				return (-1);
 			j++;
 		}
 		else if (line[i] == 48 || line[i] == 49
@@ -53,7 +53,12 @@ int		parse_map_line(int indice, char *line, t_map *m, t_param *p)
 	if (!(m->grid[indice] = malloc(m->size.x + 1)))
 		return (0);
 	if ((j = go_through_line(indice, line, m, p)) == -1)
+	{
+		free(m->grid[indice]);
+		if (indice == 0)
+			free(m->grid);
 		return (0);
+	}
 	while (j < m->size.x)
 		m->grid[indice][j++] = 48;
 	m->grid[indice][j] = 0;
@@ -85,7 +90,7 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 		grid2[x][y] = 0;
 		x++;
 	}
-	free_tmp_grid(grid, m);
+	free_grid(p);
 	return (grid2);
 }
 
@@ -98,7 +103,7 @@ t_pt	get_map_dimensions(char *file, char **line, int fd, int offset)
 	j = 0;
 	while (*line[0] == '1' || *line[0] == ' ')
 	{
-		if (dim.x < I(ft_strlen(*line)))
+		if (dim.x < (int)(ft_strlen(*line)))
 			dim.x = ft_strlen(*line);
 		free(*line);
 		get_next_line(fd, line);
@@ -121,27 +126,25 @@ t_pt	get_map_dimensions(char *file, char **line, int fd, int offset)
 int		parse_map(int fd, char *line, t_param *p)
 {
 	int	i;
-	int	y;
 
 	i = 0;
-	y = 0;
 	if (!(p->map->grid = malloc(sizeof(char*) * p->map->size.y)))
 		return (0);
 	while (get_next_line(fd, &line))
 	{
-		if (!(parse_map_line(y, line, p->map, p)))
+		if (!(parse_map_line(p->linesparsed, line, p->map, p)))
 		{
 			free(line);
 			return (0);
 		}
-		y++;
+		p->linesparsed++;
 		free(line);
 	}
 	free(line);
 	if (!(p->map->grid = gridswap(p, p->map->grid, p->map))
 			|| !(p->dirparsed))
 		return (0);
-	flood_fill(p, (t_pt){I(p->pos.x - 0.5), I(p->pos.y - 0.5)});
+	flood_fill(p, (t_pt){(int)(p->pos.x - 0.5), (int)(p->pos.y - 0.5)});
 	p->sqx = p->window->x / p->map->size.x;
 	p->sqy = p->window->y / p->map->size.y;
 	return (1);

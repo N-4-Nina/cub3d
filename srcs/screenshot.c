@@ -14,10 +14,10 @@
 
 void	shift(unsigned char *headers, int value)
 {
-	headers[0] = UC(value);
-	headers[1] = UC(value >> 8);
-	headers[2] = UC(value >> 16);
-	headers[3] = UC(value >> 24);
+	headers[0] = (unsigned char)(value);
+	headers[1] = (unsigned char)(value >> 8);
+	headers[2] = (unsigned char)(value >> 16);
+	headers[3] = (unsigned char)(value >> 24);
 }
 
 void	write_headers(int fd, t_param *p, int size)
@@ -27,16 +27,16 @@ void	write_headers(int fd, t_param *p, int size)
 
 	i = 0;
 	while (i < 54)
-		headers[i++] = UC(0);
-	headers[0] = UC('B');
-	headers[1] = UC('M');
+		headers[i++] = (unsigned char)(0);
+	headers[0] = (unsigned char)('B');
+	headers[1] = (unsigned char)('M');
 	shift(headers + 2, size);
-	headers[10] = UC(54);
-	headers[14] = UC(40);
+	headers[10] = (unsigned char)(54);
+	headers[14] = (unsigned char)(40);
 	shift(headers + 18, p->window->x);
 	shift(headers + 22, p->window->y);
-	headers[27] = UC(1);
-	headers[28] = UC(24);
+	headers[27] = (unsigned char)(1);
+	headers[28] = (unsigned char)(24);
 	write(fd, headers, 54);
 }
 

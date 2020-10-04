@@ -6,11 +6,31 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:11:00 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/02 12:34:24 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 22:51:46 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	go_through_res_line(char *line, t_param *p)
+{
+	int	i;
+
+	i = 0;
+	while (is_white_space(line[i]) || line[i] == '0')
+		i++;
+	p->window->x = abs(ft_atoi(line + i));
+	i += int_size(p->window->x) + 1;
+	while (is_white_space(line[i]) || line[i] == '0')
+		i++;
+	p->window->y = abs(ft_atoi(line + i));
+	i += int_size(p->window->y);
+	while (is_white_space(line[i]))
+		i++;
+	if (i != (int)ft_strlen(line))
+		return (0);
+	return (1);
+}
 
 int	parse_res(char *line, t_param *p)
 {
@@ -19,19 +39,20 @@ int	parse_res(char *line, t_param *p)
 	int	i;
 
 	i = 0;
-	p->window->x = abs(ft_atoi(line));
-	p->window->y = abs(ft_atoi(line + int_size(p->window->x) + 1));
+	if (!(go_through_res_line(line, p)))
+		return (-10);
 	mlx_get_screen_size(p->window->mlx, &x, &y);
 	if (p->window->x > x)
 		p->window->x = x;
 	if (p->window->y > y)
 		p->window->y = y;
 	if (!(p->window->x) || !(p->window->y))
-		return (0);
+		return (-10);
 	if (!(p->wallsdist = malloc(sizeof(double) * (p->window->x + 1))))
-		return (0);
+		return (-10);
 	while (i < p->window->x)
 		p->wallsdist[i++] = 0;
+	p->resparsed = 1;
 	return (1);
 }
 
@@ -43,7 +64,7 @@ int	parse_texture(int id, char *line, t_param *p)
 
 	w = 64;
 	h = 64;
-	while (*line == ' ')
+	while (is_white_space(*line))
 		line++;
 	fd = open(line, O_RDONLY);
 	if (fd > 1)
@@ -56,7 +77,7 @@ int	parse_texture(int id, char *line, t_param *p)
 		return (1);
 	}
 	else
-		return (0);
+		return (-5 - id);
 }
 
 int	isvalid(char *line, t_param *p)
@@ -85,10 +106,11 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 {
 	char	*line;
 	int		offset;
+	int		ret;
 
 	offset = 0;
 	get_next_line(fd, &line);
-	while (isvalid(line, param))
+	while ((ret = isvalid(line, param)) > 0)
 	{
 		free(line);
 		get_next_line(fd, &line);
@@ -97,12 +119,14 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	if (offset != 8)
 	{
 		free(line);
-		return (0);
+		return (ret);
 	}
 	param->scrdist = round(param->window->x / 2 / tan((FOV / 2) * RAD));
 	param->sizeconst = (float)64 / param->scrdist;
 	param->map->size = get_map_dimensions(argv[1], &line, fd, offset);
 	if (!(parse_map(fd, line, param)))
-		return (0);
+		return (-4);
+	else
+		param->gridparsed = 1;
 	return (1);
 }

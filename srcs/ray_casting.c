@@ -15,8 +15,8 @@
 int		check_hit(t_param *p)
 {
 	if (p->mappt.x < 0. || p->mappt.y < 0.
-			|| p->mappt.x >= FT(p->map->size.x)
-			|| p->mappt.y >= FT(p->map->size.y))
+			|| p->mappt.x >= (double)(p->map->size.x)
+			|| p->mappt.y >= (double)(p->map->size.y))
 		return (0);
 	if (p->map->grid[p->mappt.x][p->mappt.y] == 49)
 		p->hit = 1;
@@ -30,8 +30,8 @@ void	ray_init(t_param *p, int x)
 	p->raypos.y = p->pos.y;
 	p->raydir.x = p->dir.x + p->plane.x * p->x_cam;
 	p->raydir.y = p->dir.y + p->plane.y * p->x_cam;
-	p->mappt.x = I(p->raypos.x);
-	p->mappt.y = I(p->raypos.y);
+	p->mappt.x = (int)(p->raypos.x);
+	p->mappt.y = (int)(p->raypos.y);
 	dda_init(p);
 	dda(p);
 	if (p->side == 0)
@@ -45,7 +45,7 @@ void	ray_init(t_param *p, int x)
 
 void	wall_height(t_param *p)
 {
-	p->height = I(p->window->y / p->walldist);
+	p->height = (int)(p->window->y / p->walldist);
 	p->top = -p->height / 2 + p->window->y / 2;
 	p->top = (p->top < 0) ? 0 : p->top;
 	p->bot = p->height / 2 + p->window->y / 2;

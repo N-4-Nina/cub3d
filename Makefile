@@ -6,7 +6,7 @@
 #    By: abouchau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/05 16:42:52 by abouchau          #+#    #+#              #
-#    Updated: 2020/10/02 12:26:57 by chpl             ###   ########.fr        #
+#    Updated: 2020/10/04 10:47:14 by chpl             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SOURCES =  srcs/move_cam.c \
 	   srcs/flood_fill.c \
 	   srcs/screenshot.c \
 	   srcs/exit.c \
+	   srcs/error.c \
 	   srcs/cub3d.c
 
 OBJS	= ${SOURCES:.c=.o}

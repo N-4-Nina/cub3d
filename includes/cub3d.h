@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/02 17:19:59 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 14:42:51 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@
 # define PI 3.14159265359
 # define RAD 0.01745329251
 # define FOV 66
-# define I (int)
-# define UC	(unsigned char)
-# define FT (float)
 
 /*
 ** CUB3D STRUCTURES
@@ -142,6 +139,10 @@ typedef	struct	s_params
 	int				endian;
 	int				sl;
 	int				dirparsed;
+	int				gridparsed;
+	int				linesparsed;
+	int				resparsed;
+
 	float	sizeconst;
 
 	double	*wallsdist;
@@ -170,6 +171,7 @@ int		get_next_line(int fd, char **line);
 */
 int		int_size(int nb);
 int		is_white_space(char c);
+void	invalid_cub_file(t_param *p, int code);
 int		convert_color(int rgb[3]);
 int		check_and_parse(char **argv, int fd, t_param *param);
 int		parse_color(char *line, t_color *color);
@@ -203,5 +205,5 @@ void	screenshot(char **argv, t_param *p, int fd);
 void	single_ray_cast(t_param *p);
 int		free_and_exit(t_param *p);
 void	free_tmp_grid(char **grid, t_map *p);
-
+void	free_grid(t_param *p);
 #endif

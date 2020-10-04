@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:12:49 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/01 11:54:16 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 22:31:36 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,24 @@ void	free_grid(t_param *p)
 	int	i;
 
 	i = 0;
-	while (i < p->map->size.x)
+	if (p->gridparsed)
 	{
-		free(p->map->grid[i]);
-		i++;
+		while (i < p->map->size.x)
+		{
+			free(p->map->grid[i]);
+			i++;
+		}
 	}
-	free(p->map->grid);
+	else
+	{
+		while (i < p->linesparsed)
+		{
+			free(p->map->grid[i]);
+			i++;
+		}
+	}
+	if (p->linesparsed || p->gridparsed)
+		free(p->map->grid);
 }
 
 int		free_and_exit(t_param *p)
@@ -54,15 +66,21 @@ int		free_and_exit(t_param *p)
 
 	i = 0;
 	free_grid(p);
-	free_sprites(p);
+	if (p->gridparsed)
+		free_sprites(p);
 	while (i < 5)
 	{
-		mlx_destroy_image(p->window->mlx, p->tex[i].img);
+		if (p->tex[i].img != NULL)
+			mlx_destroy_image(p->window->mlx, p->tex[i].img);
 		i++;
 	}
 	free(p->map);
-	free(p->window -> mlx);
+	if (p->window->window)
+		mlx_destroy_window(p->window->mlx, p->window->window);
+	free(p->window->mlx);
 	free(p->window);
 	free(p->color);
+	if (p->wallsdist)
+		free(p->wallsdist);
 	exit(1);
 }

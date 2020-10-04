@@ -49,8 +49,8 @@ int		parse_camera(t_param *p, char dir, int x, int y)
 	if (p->dirparsed)
 		return (0);
 	p->dirparsed = 1;
-	p->pos.x = FT(x) + 0.5;
-	p->pos.y = FT(y) + 0.5;
+	p->pos.x = (double)(x) + 0.5;
+	p->pos.y = (double)(y) + 0.5;
 	if (dir == 'N')
 		set_north(p);
 	else if (dir == 'S')

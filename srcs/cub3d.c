@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/02 17:02:15 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/04 22:49:05 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,23 @@ int		check_ext(char *s)
 void	right_args_number(int argc, char **argv, t_param *param)
 {
 	int	fd;
+	int	ret;
 
 	if (!(check_ext(argv[1])))
 	{
-		write(1, "Error: \nFile must have a '.cub' extension.", 41);
+		write(1, "Error: File must have a '.cub' extension.\n", 41);
 		exit(2);
 	}
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 	{
-
-		write(1, "Error: \nCub file not found.", 27);
+		write(1, "Error: Cub file not found.\n", 27);
 		exit(2);
 	}
 	if (argc == 2 && argv[1]
-			&& !(check_and_parse(argv, fd, param)))
-	{
-		write(1, "Error: \ninvalid .cub file", 25);
-		exit(2);
-	}
+			&& (ret = (check_and_parse(argv, fd, param))) < 0)
+		invalid_cub_file(param, ret);
 	else if (argc == 3 && !(ft_strncmp(argv[2], "--save", 6)))
 		screenshot(argv, param, fd);
-
 }
 
 void	check_arg(int argc, char **argv, t_param *param)
@@ -70,11 +66,19 @@ void	init_p(t_param *param)
 	i = 0;
 	while (i < 70000)
 		param->key[i++] = 0;
+	i = 0;
+	while (i < 5)
+		param->tex[i++].img = NULL;
+	param->wallsdist = NULL;
 	param->map = (t_map *)malloc(sizeof(t_map));
 	param->window = (t_window *)malloc(sizeof(t_window));
 	param->color = (t_color *)malloc(sizeof(t_color));
+	param->window->window = NULL;
 	param->dirparsed = 0;
+	param->resparsed = 0;
+	param->gridparsed = 0;
 	param->spritesnb = 0;
+	param->linesparsed = 0;
 	param->speed = 0.15;
 	param->rotspeed = 0.07;
 }
@@ -83,17 +87,17 @@ int		main(int argc, char **argv)
 {
 	void	*mlx;
 	void	*window;
-	t_param	param;
+	t_param	p;
 
-	init_p(&param);
+	init_p(&p);
 	mlx = mlx_init();
-	param.window->mlx = mlx;
-	check_arg(argc, argv, &param);
-	window = mlx_new_window(mlx, param.window->x, param.window->y, "cub3d");
-	param.window->window = window;
-	mlx_hook(window, 33, (1 << 8), free_and_exit, &param);
-	mlx_hook(window, 2, (1L << 0), keypress, &param);
-	mlx_hook(window, 3, (1L << 1), keyrelease, &param);
-	mlx_loop_hook(mlx, loop_hook, &param);
+	p.window->mlx = mlx;
+	check_arg(argc, argv, &p);
+	window = mlx_new_window(mlx, p.window->x, p.window->y, "cub3d");
+	p.window->window = window;
+	mlx_hook(window, 33, (1 << 8), free_and_exit, &p);
+	mlx_hook(window, 2, (1L << 0), keypress, &p);
+	mlx_hook(window, 3, (1L << 1), keyrelease, &p);
+	mlx_loop_hook(mlx, loop_hook, &p);
 	mlx_loop(mlx);
 }

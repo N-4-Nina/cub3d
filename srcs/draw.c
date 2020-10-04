@@ -55,7 +55,7 @@ void	add_slice(int x, int top, int bot, t_param *p)
 		p->x_wall = p->raypos.y + p->walldist * p->raydir.y;
 	else
 		p->x_wall = p->raypos.x + p->walldist * p->raydir.x;
-	p->texpt.x = I(p->x_wall * FT(64));
+	p->texpt.x = (int)(p->x_wall * 64.);
 	if (p->side == 0 && p->raydir.x > 0)
 		p->texpt.x = 64 - p->texpt.x - 1;
 	if (p->side == 1 && p->raydir.y < 0)
