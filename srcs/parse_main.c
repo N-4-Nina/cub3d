@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:11:00 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/04 22:51:46 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:34:36 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,11 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	int		ret;
 
 	offset = 0;
-	get_next_line(fd, &line);
+	get_next_line(param->still, fd, &line);
 	while ((ret = isvalid(line, param)) > 0)
 	{
 		free(line);
-		get_next_line(fd, &line);
+		get_next_line(param->still, fd, &line);
 		offset++;
 	}
 	if (offset != 8)
@@ -123,7 +123,7 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	}
 	param->scrdist = round(param->window->x / 2 / tan((FOV / 2) * RAD));
 	param->sizeconst = (float)64 / param->scrdist;
-	param->map->size = get_map_dimensions(argv[1], &line, fd, offset);
+	param->map->size = get_map_dimensions(param, argv[1], &line, &fd, offset);
 	if (!(parse_map(fd, line, param)))
 		return (-4);
 	else

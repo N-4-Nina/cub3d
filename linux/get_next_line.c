@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 12:44:58 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/17 12:29:18 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/10/05 16:26:28 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ int	gnl_write(int fd, char **line, char *still[FOPEN_MAX])
 		free(temp);
 	}
 	return (1);
-	return (0);
 }
 
-int	get_next_line(int fd, char **line)
+int	get_next_line(char *still[FOPEN_MAX], int fd, char **line)
 {
-	static	char	*still[FOPEN_MAX];
 	int				i;
 	int				ret;
 	int				check;

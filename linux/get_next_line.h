@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 12:45:41 by abouchau          #+#    #+#             */
-/*   Updated: 2020/09/17 12:50:06 by abouchau         ###   ########.fr       */
+/*   Updated: 2020/10/05 16:25:11 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdio.h>
 
 int		check_new_line(char *s);
-int		get_next_line(int fd, char **line);
+int		get_next_line(char *still[FOPEN_MAX], int fd, char **line);
 
 int		ft_strlen(const char *str);
 char	*ft_substr(char const *s, int start, int len);

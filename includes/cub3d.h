@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/05 11:32:06 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 16:24:22 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,45 +89,40 @@ typedef struct		s_sprites
 
 typedef	struct		s_params
 {
-	t_window	*window;
-	t_color	*color;
-	t_map	*map;
-	t_sprites	**sprites;
-
-	t_pt	step;
-	t_pt	mappt;
-	t_pt	winsize;
-	t_pt	scrsize;
-	t_pt	texpt;
-	t_pt	sptexpt;
-
-	void	*frame;
-	unsigned	int		*frameptr;
-	t_texture	tex[5];
-	t_fpt	pos;
-	t_fpt	dir;
-	t_fpt	plane;
-	t_fpt	raypos;
-	t_fpt	raydir;
-	t_fpt	sidedist;
-	t_fpt	delta;
-
+	t_window		*window;
+	t_color			*color;
+	t_map			*map;
+	t_sprites		**sprites;
+	t_texture		tex[5];
+	void			*frame;
+	unsigned	int	*frameptr;
+	t_pt			step;
+	t_pt			mappt;
+	t_pt			winsize;
+	t_pt			scrsize;
+	t_pt			texpt;
+	t_pt			sptexpt;
+	t_fpt			pos;
+	t_fpt			dir;
+	t_fpt			plane;
+	t_fpt			raypos;
+	t_fpt			raydir;
+	t_fpt			sidedist;
+	t_fpt			delta;
+	char			*still[FOPEN_MAX];
 	int				key[70000];
 	int				id;
 	int				hit;
 	int				side;
 	int				orient;
 	int				x;
-
 	int				height;
 	int				top;
 	int				bot;
 	int				sheight;
 	int				stop;
 	int				sbot;
-
 	int				spritesnb;
-
 	int				sqx;
 	int				sqy;
 	int				scrdist;
@@ -138,24 +133,22 @@ typedef	struct		s_params
 	int				gridparsed;
 	int				linesparsed;
 	int				resparsed;
-
-	double	sizeconst;
-
-	double	*wallsdist;
-	double	angle_dir;
-	double	x_cam;
-	double	x_wall;
-	double	x_sprite;
-	double	walldist;
-	double	speed;
-	double	rotspeed;
+	double			sizeconst;
+	double			*wallsdist;
+	double			angle_dir;
+	double			x_cam;
+	double			x_wall;
+	double			x_sprite;
+	double			walldist;
+	double			speed;
+	double			rotspeed;
 }					t_param;
 
 int					ft_atoi(const char *str);
 
 int					check_hit(t_param *p);
 int					free_and_exit(t_param *p);
-int					get_next_line(int fd, char **line);
+int					get_next_line(char *still[FOPEN_MAX], int fd, char **line);
 int					int_size(int nb);
 int					is_white_space(char c);
 int					convert_color(int rgb[3]);
@@ -186,6 +179,6 @@ void				screenshot(char **argv, t_param *p, int fd);
 void				single_ray_cast(t_param *p);
 void				free_tmp_grid(char **grid, t_map *p);
 void				free_grid(t_param *p);
-t_pt				get_map_dimensions(char *file,
-				char **line, int fd, int offset);
+t_pt				get_map_dimensions(t_param *p, char *file,
+				char **line, int *fd, int offset);
 #endif

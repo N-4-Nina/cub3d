@@ -6,21 +6,11 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:12:49 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/04 22:31:36 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 16:28:35 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	free_tmp_grid(char **grid, t_map *m)
-{
-	int	i;
-
-	i = 0;
-	while (i < m->size.y)
-		free(grid[i++]);
-	free(grid);
-}
 
 void	free_sprites(t_param *p)
 {
@@ -68,10 +58,12 @@ int		free_and_exit(t_param *p)
 	free_grid(p);
 	if (p->gridparsed)
 		free_sprites(p);
-	while (i < 5)
+	while (i < FOPEN_MAX)
 	{
-		if (p->tex[i].img != NULL)
+		if (i < 5 && p->tex[i].img != NULL)
 			mlx_destroy_image(p->window->mlx, p->tex[i].img);
+		if (p->still[i])
+			free(p->still[i]);
 		i++;
 	}
 	free(p->map);

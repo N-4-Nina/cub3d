@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/04 22:41:12 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:46:45 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 	int		y;
 
 	x = 0;
-	p->sprites = malloc(sizeof(t_sprites*) * p->spritesnb);
-	p->spritesnb = 0;
-	if (!(grid2 = malloc(sizeof(char*) * m->size.x)))
+	if (!(grid2 = malloc(sizeof(char*) * m->size.x)) ||
+			!(p->sprites = malloc(sizeof(t_sprites*) * p->spritesnb)))
 		return (0);
+	p->spritesnb = 0;
 	while (x < m->size.x)
 	{
 		y = 0;
@@ -94,29 +94,29 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 	return (grid2);
 }
 
-t_pt	get_map_dimensions(char *file, char **line, int fd, int offset)
+t_pt	get_map_dimensions(t_param *p, char *file, char **line, int *fd, int offset)
 {
 	t_pt	dim;
 	int		j;
 
 	dim = (t_pt){0, 0};
 	j = 0;
-	while (*line[0] == '1' || *line[0] == ' ')
+	while (**line)
 	{
 		if (dim.x < (int)(ft_strlen(*line)))
 			dim.x = ft_strlen(*line);
 		free(*line);
-		get_next_line(fd, line);
+		get_next_line(p->still, *fd, line);
 		dim.y++;
 	}
 	free(*line);
-	close(fd);
-	fd = open(file, O_RDONLY);
-	get_next_line(fd, line);
+	close(*fd);
+	*fd = open(file, O_RDONLY);
+	get_next_line(p->still, *fd, line);
 	while (j < offset - 1)
 	{
 		free(*line);
-		get_next_line(fd, line);
+		get_next_line(p->still, *fd, line);
 		j++;
 	}
 	free(*line);
@@ -130,7 +130,7 @@ int		parse_map(int fd, char *line, t_param *p)
 	i = 0;
 	if (!(p->map->grid = malloc(sizeof(char*) * p->map->size.y)))
 		return (0);
-	while (get_next_line(fd, &line))
+	while (get_next_line(p->still, fd, &line))
 	{
 		if (!(parse_map_line(p->linesparsed, line, p->map, p)))
 		{
