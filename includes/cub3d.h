@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/04 14:42:51 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 11:32:06 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,37 +27,33 @@
 # define RAD 0.01745329251
 # define FOV 66
 
-/*
-** CUB3D STRUCTURES
-*/
-
-typedef	struct	s_point
+typedef	struct		s_point
 {
 	int	x;
 	int	y;
-}				t_pt;
+}					t_pt;
 
-typedef	struct	s_floatpoint
+typedef	struct		s_floatpoint
 {
 	double	x;
 	double	y;
-}				t_fpt;
+}					t_fpt;
 
-typedef	struct	s_window
+typedef	struct		s_window
 {
 	void	*mlx;
 	void	*window;
 	int		x;
 	int		y;
-}				t_window;
+}					t_window;
 
-typedef	struct	s_color
+typedef	struct		s_color
 {
 	int	ceiling;
 	int	floor;
-}				t_color;
+}					t_color;
 
-typedef	struct	s_texture
+typedef	struct		s_texture
 {
 	void	*img;
 	void	*ptr;
@@ -66,15 +62,15 @@ typedef	struct	s_texture
 	int		bpp;
 	int		size_line;
 	int		endian;
-}				t_texture;
+}					t_texture;
 
-typedef	struct	s_map
+typedef	struct		s_map
 {
 	t_pt	size;
 	char	**grid;
-}				t_map;
+}					t_map;
 
-typedef struct	s_sprites
+typedef struct		s_sprites
 {
 	t_fpt	coord;
 	t_fpt	delta;
@@ -89,9 +85,9 @@ typedef struct	s_sprites
 	double	dist;
 	double	inv;
 
-}				t_sprites;
+}					t_sprites;
 
-typedef	struct	s_params
+typedef	struct		s_params
 {
 	t_window	*window;
 	t_color	*color;
@@ -143,7 +139,7 @@ typedef	struct	s_params
 	int				linesparsed;
 	int				resparsed;
 
-	float	sizeconst;
+	double	sizeconst;
 
 	double	*wallsdist;
 	double	angle_dir;
@@ -153,57 +149,43 @@ typedef	struct	s_params
 	double	walldist;
 	double	speed;
 	double	rotspeed;
-}				t_param;
+}					t_param;
 
-int	ft_atoi(const char *str);
+int					ft_atoi(const char *str);
 
-/*
-** GNL_
-*/
-char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strdup(const char *src);
+int					check_hit(t_param *p);
+int					free_and_exit(t_param *p);
+int					get_next_line(int fd, char **line);
+int					int_size(int nb);
+int					is_white_space(char c);
+int					convert_color(int rgb[3]);
+int					check_and_parse(char **argv, int fd, t_param *param);
+int					parse_color(char *line, t_color *color);
+int					parse_map_line(int indice,
+					char *line, t_map *m, t_param *p);
+int					parse_map(int fd, char *line, t_param *p);
+int					parse_camera(t_param *p, char dir, int x, int y);
+int					loop_hook(void *param);
+int					keypress(int keycode, void *param);
+int					keyrelease(int keycode, void *param);
 
-int		check_new_line(char *s);
-int		get_next_line(int fd, char **line);
-/*
-** CUB3D
-*/
-int		int_size(int nb);
-int		is_white_space(char c);
-void	invalid_cub_file(t_param *p, int code);
-int		convert_color(int rgb[3]);
-int		check_and_parse(char **argv, int fd, t_param *param);
-int		parse_color(char *line, t_color *color);
-int		parse_map_line(int indice, char *line, t_map *m, t_param *p);
-int		parse_map(int fd, char *line, t_param *p);
-int		parse_camera(t_param *p, char dir, int x, int y);
-t_pt	get_map_dimensions(char *file, char **line, int fd, int offset);
-void	flood_fill(t_param *p, t_pt coord);
-
-void	add_slice(int x, int top, int bot, t_param *p);
-
-void	ray_casting(t_param *p);
-int		check_hit(t_param *p);
-void	dda_init(t_param *p);
-void	dda(t_param *p);
-
-void	add_sprite(t_param *p, t_pt coord);
-void	draw_sprite(t_param *p, t_sprites *sprite);
-void	sprites(t_param *p);
-
-void	turn_cam(int i, t_param *p);
-void	move_cam(t_param *p);
-void	move_sideways(t_param *p);
-
-int		loop_hook(void *param);
-int		keypress(int keycode, void *param);
-int		keyrelease(int keycode, void *param);
-
-void	turn(t_param *p);
-void	screenshot(char **argv, t_param *p, int fd);
-void	single_ray_cast(t_param *p);
-int		free_and_exit(t_param *p);
-void	free_tmp_grid(char **grid, t_map *p);
-void	free_grid(t_param *p);
+void				flood_fill(t_param *p, t_pt coord);
+void				invalid_cub_file(t_param *p, int code);
+void				add_slice(int x, int top, int bot, t_param *p);
+void				ray_casting(t_param *p);
+void				dda_init(t_param *p);
+void				dda(t_param *p);
+void				add_sprite(t_param *p, t_pt coord);
+void				draw_sprite(t_param *p, t_sprites *sprite);
+void				sprites(t_param *p);
+void				turn_cam(int i, t_param *p);
+void				move_cam(t_param *p);
+void				move_sideways(t_param *p);
+void				turn(t_param *p);
+void				screenshot(char **argv, t_param *p, int fd);
+void				single_ray_cast(t_param *p);
+void				free_tmp_grid(char **grid, t_map *p);
+void				free_grid(t_param *p);
+t_pt				get_map_dimensions(char *file,
+				char **line, int fd, int offset);
 #endif
