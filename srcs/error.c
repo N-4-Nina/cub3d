@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 10:32:22 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/04 22:51:31 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 22:45:37 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	invalid_cub_file(t_param *p, int code)
 {
 	p->spritesnb = 0;
 	write(1, "Error: \ninvalid .cub file: ", 27);
+	if (code == 0)
+		write(1, "8 lines must start with correct identifier.", 43);
 	if (code == -5)
 		write(1, "couldn't parse North texture.", 29);
 	if (code == -6)
