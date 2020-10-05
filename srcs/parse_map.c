@@ -94,7 +94,7 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 	return (grid2);
 }
 
-t_pt	get_map_dimensions(t_param *p, char *file, char **line, int *fd, int offset)
+t_pt	get_map_dimensions(t_param *p, char *file, char **line, int *fd)
 {
 	t_pt	dim;
 	int		j;
@@ -113,7 +113,7 @@ t_pt	get_map_dimensions(t_param *p, char *file, char **line, int *fd, int offset
 	close(*fd);
 	*fd = open(file, O_RDONLY);
 	get_next_line(p->still, *fd, line);
-	while (j < offset - 1)
+	while (j < 7)
 	{
 		free(*line);
 		get_next_line(p->still, *fd, line);

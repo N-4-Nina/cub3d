@@ -123,7 +123,7 @@ int	check_and_parse(char **argv, int fd, t_param *param)
 	}
 	param->scrdist = round(param->window->x / 2 / tan((FOV / 2) * RAD));
 	param->sizeconst = (float)64 / param->scrdist;
-	param->map->size = get_map_dimensions(param, argv[1], &line, &fd, offset);
+	param->map->size = get_map_dimensions(param, argv[1], &line, &fd);
 	if (!(parse_map(fd, line, param)))
 		return (-4);
 	else

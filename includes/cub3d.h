@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 13:44:26 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/05 16:24:22 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 16:33:20 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,5 @@ void				single_ray_cast(t_param *p);
 void				free_tmp_grid(char **grid, t_map *p);
 void				free_grid(t_param *p);
 t_pt				get_map_dimensions(t_param *p, char *file,
-				char **line, int *fd, int offset);
+				char **line, int *fd);
 #endif
