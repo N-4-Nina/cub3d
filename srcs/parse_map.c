@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/05 15:46:45 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 17:02:06 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int		parse_map(int fd, char *line, t_param *p)
 	if (!(p->map->grid = gridswap(p, p->map->grid, p->map))
 			|| !(p->dirparsed))
 		return (0);
+	p->gridparsed = 1;
 	flood_fill(p, (t_pt){(int)(p->pos.x - 0.5), (int)(p->pos.y - 0.5)});
 	p->sqx = p->window->x / p->map->size.x;
 	p->sqy = p->window->y / p->map->size.y;

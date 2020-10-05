@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/04 22:49:05 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/05 16:50:19 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	init_p(t_param *param)
 	i = 0;
 	while (i < 5)
 		param->tex[i++].img = NULL;
+	i = 0;
+	while (i < FOPEN_MAX)
+		param->still[i++] = NULL;
 	param->wallsdist = NULL;
 	param->map = (t_map *)malloc(sizeof(t_map));
 	param->window = (t_window *)malloc(sizeof(t_window));
