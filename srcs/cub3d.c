@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/05 22:38:46 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/06 09:32:59 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ void	init_p(t_param *param)
 	while (i < FOPEN_MAX)
 		param->still[i++] = NULL;
 	param->wallsdist = NULL;
-	param->map = (t_map *)malloc(sizeof(t_map));
-	param->window = (t_window *)malloc(sizeof(t_window));
-	param->color = (t_color *)malloc(sizeof(t_color));
+	if (!(param->map = (t_map *)malloc(sizeof(t_map)))
+	|| (!(param->window = (t_window *)malloc(sizeof(t_window))))
+	|| (!(param->color = (t_color *)malloc(sizeof(t_color)))))
+		exit(2);
 	param->window->window = NULL;
 	param->dirparsed = 0;
 	param->resparsed = 0;

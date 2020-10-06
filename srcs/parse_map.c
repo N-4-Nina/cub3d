@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 12:03:13 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/05 17:02:06 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/06 09:46:19 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 	while (x < m->size.x)
 	{
 		y = 0;
-		grid2[x] = malloc(m->size.y + 1);
+		if (!(grid2[x] = malloc(m->size.y + 1)))
+			return (0);
 		while (y < m->size.y)
 		{
 			grid2[x][y] = grid[y][x];
@@ -87,8 +88,7 @@ char	**gridswap(t_param *p, char **grid, t_map *m)
 				add_sprite(p, (t_pt){x, y});
 			y++;
 		}
-		grid2[x][y] = 0;
-		x++;
+		grid2[x++][y] = 0;
 	}
 	free_grid(p);
 	return (grid2);
