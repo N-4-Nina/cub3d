@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:36:29 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/01 10:59:41 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/10 10:00:31 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	add_slice_sprite(t_param *p, t_sprites *sprite, int x)
 	{
 		sprite->d = y * 256 - p->window->y * 128 + sprite->dim.y * 128;
 		sprite->texcoord.y = ((sprite->d * 64) / sprite->dim.y) / 256;
+		if (sprite->texcoord.y < 0)
+			sprite->texcoord.y = 0;
 		if (*(int *)&p->tex[4].ptr[(int)(sprite->texcoord.y) % 64
 				* p->tex[4].size_line + (int)(sprite->texcoord.x) % 64
 				* p->tex[4].bpp / 8] != 0x000000)
