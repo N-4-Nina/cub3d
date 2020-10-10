@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:36:29 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/10 10:00:31 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/10 10:08:59 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	draw_sprite(t_param *p, t_sprites *sprite)
 		sprite->texcoord.x =
 			(int)((256 * (x - (-sprite->dim.x / 2 + sprite->xscreen))
 						* 64 / sprite->dim.x) / 256);
+		if (sprite->texcoord.x < 0)
+			sprite->texcoord.x = 0;
 		add_slice_sprite(p, sprite, x);
 		x++;
 	}
