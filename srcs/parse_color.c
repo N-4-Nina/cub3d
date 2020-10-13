@@ -6,7 +6,7 @@
 /*   By: chpl <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:21:41 by chpl              #+#    #+#             */
-/*   Updated: 2020/10/04 10:27:41 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/13 10:34:22 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int		through_color_line(char *line, int offset)
 		offset += 1 + int_size(rgb[i++]);
 		if (i == 3)
 			offset--;
-		while (is_white_space(line[offset]) || line[offset] == '0')
+		while (is_white_space(line[offset]) ||
+				(line[offset] == '0'
+				&& line[offset + 1]
+				&& line[offset + 1] != ','))
 			offset++;
 	}
 	if (offset != (int)ft_strlen(line))
@@ -55,7 +58,10 @@ int		parse_color(char *line, t_color *color)
 
 	i = 0;
 	offset = 1;
-	while (is_white_space(line[offset]) || line[offset] == '0')
+	while (is_white_space(line[offset]) ||
+			(line[offset] == '0'
+			&& line[offset + 1]
+			&& line[offset + 1] != ','))
 		offset++;
 	if ((value = through_color_line(line, offset)) == -1)
 		return (-line[0]);

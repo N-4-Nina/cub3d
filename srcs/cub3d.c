@@ -6,7 +6,7 @@
 /*   By: abouchau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:06:16 by abouchau          #+#    #+#             */
-/*   Updated: 2020/10/06 09:32:59 by chpl             ###   ########.fr       */
+/*   Updated: 2020/10/13 10:10:11 by chpl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void	right_args_number(int argc, char **argv, t_param *param)
 	if (argc == 2 && argv[1]
 			&& (ret = (check_and_parse(argv, fd, param))) < 1)
 		invalid_cub_file(param, ret);
-	else if (argc == 3 && !(ft_strncmp(argv[2], "--save", 6)))
+	else if (argc == 3)
 		screenshot(argv, param, fd);
 }
 
 void	check_arg(int argc, char **argv, t_param *param)
 {
-	if (argc == 2 || argc == 3)
+	if (argc == 2 ||
+			(argc == 3 && !(ft_strncmp(argv[2], "--save", ft_strlen(argv[2])))))
 		right_args_number(argc, argv, param);
 	else
 	{

@@ -46,6 +46,8 @@ void	ray_init(t_param *p, int x)
 void	wall_height(t_param *p)
 {
 	p->height = (int)(p->window->y / p->walldist);
+	if (p->height == 0)
+		p->height = 1;
 	p->top = -p->height / 2 + p->window->y / 2;
 	p->top = (p->top < 0) ? 0 : p->top;
 	p->bot = p->height / 2 + p->window->y / 2;
